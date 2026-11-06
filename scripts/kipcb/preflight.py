@@ -249,7 +249,8 @@ def check(pdir, name, design, board=None):
     if pred and pred["n"] >= 3 and pred["p_ok"] < 0.34:
         level = WARN
         msg += "; only %d of %d similar past boards routed completely" % (pred["ok"], pred["n"])
-    res.add("density", level, msg, "enlarge the board (\"auto_shrink\": false or a fixed size) or use 4 layers"
+    more = " or use 4 layers" if board.GetCopperLayerCount() <= 2 else ""
+    res.add("density", level, msg, "enlarge the board (\"auto_shrink\": false or a fixed size)" + more
             if level != PASS else None)
 
     # ---- layout score: how typical this layout is of real routed boards (knowledge base)

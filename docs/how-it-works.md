@@ -181,6 +181,15 @@ Stacked duplicate pads (like USB-C's paired VBUS pins) are hidden from the
 router so they don't cause failures, and the outline the router sees is
 shrunk by the copper-to-edge rule so no track ends up too close to the edge.
 
+**More than 2 layers.** With `"layers": "auto"` (the default) kipcb picks the
+layer count before building: 4 for a BGA or a high-speed interface, or when
+more than 60% of the 30 most similar real routed boards use 4+ layers (on 844
+real boards that rule matches the designer's own choice 82% of the time),
+otherwise 2. On 4 and 6 layers the inner GND and power layers are solid
+planes the router never runs tracks on; kipcb gives every SMD pad on a plane
+net a short locked stub and via into its plane before routing, since the
+autorouter won't connect pads to planes itself.
+
 ## Checks
 
 - **ERC / DRC** via KiCad, including schematic ↔ board parity.

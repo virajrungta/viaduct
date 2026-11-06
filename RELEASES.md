@@ -8,6 +8,7 @@ To update: `claude plugin marketplace update pcb-claude-plugin`, then
 
 | Version | Date | What's new |
 |---|---|---|
+| [V2.5](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.5) | 2026-11-05 | 4- and 6-layer boards, with the layer count chosen for you. |
 | [V2.4](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.4) | 2026-10-09 | Check a schematic you already have against real designs. |
 | [V2.3](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.3) | 2026-10-05 | Ask questions and get feedback on any design: `/pcb:inquiry`. |
 | [V2.2](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.2) | 2026-10-03 | Board sizing learned from real routed boards. |

@@ -47,10 +47,11 @@ json_escape() { local s="${1//\\/\\\\}"; s="${s//\"/\\\"}"; printf '%s' "${s//$'
 # 1. settings from the install dialog (exported by Claude Code as CLAUDE_PLUGIN_OPTION_<KEY>)
 FAB="${CLAUDE_PLUGIN_OPTION_FAB_HOUSE:-JLCPCB}"
 BUILD="${CLAUDE_PLUGIN_OPTION_BUILD_METHOD:-Assembled by the manufacturer}"
-LAYERS="${CLAUDE_PLUGIN_OPTION_LAYERS:-2}"
+LAYERS="${CLAUDE_PLUGIN_OPTION_LAYERS:-Auto}"
+LAYERS_JSON="${LAYERS//[^0-9]/}"; [[ -z "$LAYERS_JSON" ]] && { LAYERS="auto"; LAYERS_JSON='"auto"'; }
 LEARN="${CLAUDE_PLUGIN_OPTION_LEARNING:-true}"
 printf '{"fab_house": "%s", "build_method": "%s", "layers": %s, "learning": %s}\n' \
-  "$(json_escape "$FAB")" "$(json_escape "$BUILD")" "${LAYERS//[^0-9]/}" \
+  "$(json_escape "$FAB")" "$(json_escape "$BUILD")" "$LAYERS_JSON" \
   "$([[ "$LEARN" == "false" || "$LEARN" == "0" ]] && echo false || echo true)" \
   > "$SETTINGS_DIR/settings.json" 2>/dev/null
 
@@ -98,7 +99,7 @@ SEEN_FILE="$DATA/last-version"
 SEEN="$(cat "$SEEN_FILE" 2>/dev/null || true)"
 msg=""
 if [[ -z "$SEEN" ]]; then
-  msg="PCB Design plugin V$VERSION installed. Try: /pcb:design a USB-C powered board with an ESP32 and a temperature sensor. Defaults: $FAB, $BUILD, $LAYERS layers (change with /plugin configure pcb@pcb-claude-plugin)."
+  msg="PCB Design plugin V$VERSION installed. Try: /pcb:design a USB-C powered board with an ESP32 and a temperature sensor. Defaults: $FAB, $BUILD, layers $LAYERS (change with /plugin configure pcb@pcb-claude-plugin)."
 elif [[ "$SEEN" != "$VERSION" ]]; then
   msg="PCB Design plugin updated to V$VERSION. What's new: https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v$VERSION"
 fi
@@ -109,7 +110,7 @@ if (( ${#missing[@]} )); then
   msg="${msg:+$msg }PCB Design plugin needs: ${needs%; }. Run kipcb doctor for details."
 fi
 
-context="PCB plugin defaults from the user's settings: manufacturer $FAB; build: $BUILD; $LAYERS layers; learning ${LEARN}."
+context="PCB plugin defaults from the user's settings: manufacturer $FAB; build: $BUILD; layers: $LAYERS (auto = let kipcb choose from the design; a number = use it as board.layers); learning ${LEARN}."
 if [[ -n "${router_missing:-}" ]]; then
   context="$context Freerouting is not installed yet; ask the user before running kipcb setup-router (downloads ~65 MB)."
 fi

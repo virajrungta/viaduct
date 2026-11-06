@@ -349,6 +349,9 @@ def _holes(design, W, H):
     return hole_size, hole_pos, holes
 
 
+FAR_PREFIX = "nearest capacitor is"      # place.Placer's far-decoupling log lines
+
+
 def shrink_to_fit(design, sch_builder, W, H, max_steps=8):
     """Shrink an auto-sized board while every part still fits at full spacing.
 
@@ -379,13 +382,27 @@ def shrink_to_fit(design, sch_builder, W, H, max_steps=8):
         real = knowledge.routed_density(layers)
         if real and real.get("p75"):
             floor = max(floor, f["conns"] / real["p75"] * 100.0)
+    def far_pins(log):
+        return {line.rsplit(" from ", 1)[1].split()[0] for line in log if line.startswith(FAR_PREFIX)}
+
+    # decoupling that is already far at the starting size is crowding around a chip, not a
+    # size problem: a smaller board is only refused for caps it pushes away from their pins
+    _, _, holes0 = _holes(design, W, H)
+    _, _, log0 = compute_placement(design, sch_builder, W, H, holes0, quiet=True, step=1.0, refine=0)
+    crowded = far_pins(log0)
+
+    def clean(failed, log):
+        squeezed = [l for l in log if not l.startswith(FAR_PREFIX)]
+        return not failed and not squeezed and far_pins(log) <= crowded
+
     def fits(W2, H2, grid=1.0):
-        """A clean placement at full spacing (nothing squeezed or left over), or None, on the
-        fast coarse grid; the chosen size then gets a fine placement below."""
+        """A clean placement at full spacing (nothing squeezed or left over, no cap pushed
+        from its pin), or None, on the fast coarse grid; the chosen size then gets a fine
+        placement below."""
         _, _, holes = _holes(design, W2, H2)
         placement, failed, log = compute_placement(design, sch_builder, W2, H2, holes, quiet=True,
                                                    step=grid, refine=0 if grid else 2)
-        return placement if not failed and not log else None
+        return placement if clean(failed, log) else None
 
     def size(scale):
         return float(math.floor(W * scale)), float(math.floor(H * scale))
@@ -413,13 +430,13 @@ def shrink_to_fit(design, sch_builder, W, H, max_steps=8):
     if best is not None:
         _, _, holes = _holes(design, W, H)
         fine, failed, log = compute_placement(design, sch_builder, W, H, holes, quiet=True)
-        if not failed and not log:
+        if clean(failed, log):
             best = fine
         else:
             # the fine grid squeezed something the trial didn't: polish the trial instead
             # (refinement only moves a part where it's better off)
             fine, failed, log = compute_placement(design, sch_builder, W, H, holes, quiet=True, seed=best)
-            if not failed and not log:
+            if clean(failed, log):
                 best = fine
     return W, H, best
 
@@ -555,6 +572,12 @@ def build(design, sch_builder, pcb_path, placement=None):
     ds = board.GetDesignSettings()
     ds.SetAuxOrigin(pn.VECTOR2I(mm(ox), mm(oy + H)))
     ds.SetGridOrigin(pn.VECTOR2I(mm(ox), mm(oy + H)))
+    # 4+ layers: ground and power planes on the inner layers (stackup.py); routing re-adds them
+    from . import stackup
+    planes = stackup.plan(design)
+    stackup.apply(board, planes)
+    if planes:
+        notes.append("planes: " + ", ".join("%s %s" % (l, n) for l, n in sorted(planes.items())))
     pn.SaveBoard(pcb_path, board)
-    return {"width": W, "height": H, "placement": placement, "failed": failed, "notes": notes}
+    return {"width": W, "height": H, "placement": placement, "failed": failed, "notes": notes, "planes": planes}
 

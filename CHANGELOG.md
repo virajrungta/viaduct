@@ -9,6 +9,46 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.5 - 2026-11-05
+
+**4- and 6-layer boards, with the layer count chosen for you.**
+
+V2.5 builds boards with more than 2 layers, with solid inner ground and
+power planes, and can decide the layer count itself.
+
+### Update
+
+```bash
+claude plugin marketplace update pcb-claude-plugin
+claude plugin update pcb@pcb-claude-plugin
+```
+
+### What changed
+
+- **Two modes for layers.** Pick 2, 4 or 6 yourself (in the spec or the
+  plugin's default setting), or leave it on **Auto**, the new default. Auto
+  chooses from the design's complexity and says why (`LAYERS:` in
+  `kipcb check` and the run report). It picks 4 layers for BGAs, high-speed
+  interfaces (Ethernet PHYs, DDR, HDMI, USB 3, MIPI) or when a clear majority
+  of similar real routed boards use 4+ layers; otherwise 2, which is cheaper.
+- **Real stackups.** On 4 layers, In1.Cu is a solid GND plane and In2.Cu a
+  plane for the main supply rail; on 6, In1.Cu GND and In4.Cu power with two
+  signal layers between. `board.planes` picks other nets, and `{}` keeps
+  every inner layer for signals. kipcb places the via from each SMD pad to
+  its plane itself, since the autorouter doesn't.
+- **Auto stays conservative for fine-pitch chips.** Boards with 0.4 mm QFNs
+  like the RP2040 currently route more completely on 2 layers, so auto
+  keeps them there; you can still ask for 4.
+- **Fix: auto-shrink no longer pushes decoupling caps away from their
+  pins.** A smaller board is only accepted if every cap stays as close to its
+  pin as it was at the starting size (the RP2040 board is back to 62 x 45 mm,
+  preflight clean).
+- **Fix: the autorouter no longer steals focus** from your browser or editor
+  on macOS while it runs.
+- **Fix: the unrouted-board safety net stops early** when a larger board
+  doesn't route better, and keeps the nearly-routed board when a larger
+  rebuild places or routes worse, instead of ending with nothing routed.
+
 ## V2.4 - 2026-10-09
 
 **Check a schematic you already have against real designs.**

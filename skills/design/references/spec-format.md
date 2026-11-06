@@ -93,7 +93,13 @@ Fields you set yourself (e.g. `footprint`) win over the catalog.
   part still fits at full spacing.
 - `auto_shrink`: `false` keeps the auto-sized board at its starting size. Use this for
   noise-sensitive boards, where the extra room keeps routes on the top layer.
-- `layers`: 2 or 4. With 4, inner layers are available to the router. Pour planes are still added on the outer layers only.
+- `layers`: `"auto"` (the default when left out), 2, 4 or 6. Auto picks 4 for a BGA, a
+  high-speed interface (Ethernet PHY, DDR, HDMI, USB 3, MIPI) or when a clear majority of
+  similar real boards use 4+ layers, else 2; `kipcb check` prints the choice and why
+  (`LAYERS:`). On 4 layers In1.Cu is a solid GND plane and In2.Cu a plane for the main
+  supply rail; on 6, In1.Cu GND and In4.Cu power with In2/In3 for signals.
+- `planes`: override the inner planes, e.g. `{"In1.Cu": "GND", "In2.Cu": "+5V"}`;
+  `{}` keeps every inner layer for signals.
 - `corner_radius` (mm, default 1).
 - `mounting_holes`: `"M3"`, or `{"size": "M2|M2.5|M3|M4", "inset": 3.5}`
   (four corners), or `{"size": "M3", "positions": [[x, y], ...]}`. Parts are kept clear of them.

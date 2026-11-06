@@ -21,7 +21,7 @@ kipcb already retries with different strategies and runs a completion pass.
 If connections still fail:
 - give the board more room (larger `width`/`height`, or `"spacing": "roomy"`)
 - spread crowded groups, or use `place` hints so ICs face their partners
-- move to 4 layers for fine-pitch parts or dense boards
+- move to 4 layers for dense boards (fine-pitch QFNs like the RP2040 currently route better on 2)
 - run `kipcb route <project> --attempts 6` to try more strategies
 
 Each run is remembered, so later boards start with strategies that worked.

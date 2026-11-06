@@ -11,6 +11,7 @@ of the board a person chose, against 1.8x for a single density figure per layer 
 
     features(design)        -> design features from the spec (before placement)
     fill(features, layers)  -> {"p25", "p50", "p75", "p90", "n"} courtyard fill of similar boards
+    layer_vote(features)    -> (share of the most similar real boards on 4+ layers, how many)
 """
 
 import math
@@ -34,6 +35,26 @@ def _vector(f):
     pads, parts = max(f["pads"], 1), max(f["parts"], 1)
     return (math.log(pads), math.log(pads / float(parts)), f["fine"],
             math.log(max(f["conns"], 1) / max(f["court_area"], 1.0) * 100.0))
+
+
+def _all_rows():
+    from . import knowledge
+    kb = knowledge.placement() or {}
+    names, rows = kb.get("sizing_fields"), kb.get("sizing") or []
+    if not names or len(rows) < MIN_ROWS:
+        return []
+    return [d for d in (dict(zip(names, r)) for r in rows) if d["board_area"] > 0 and d["court_area"] > 0]
+
+
+def layer_vote(f, rows=None):
+    """How many of the most similar real routed boards (any layer count) use 4+ layers.
+    Leave-one-out on 844 real boards, "4 layers when over 60% of them do" matches the
+    designer's own choice 82% of the time (as often as 40%, with half the needless
+    upgrades of 2-layer designs)."""
+    nb = neighbours(f, None, rows=_all_rows() if rows is None else rows)
+    if not nb:
+        return None, 0
+    return sum(1 for r in nb if r["layers"] >= 4) / float(len(nb)), len(nb)
 
 
 def _rows(layers):

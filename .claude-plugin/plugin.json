@@ -1,7 +1,7 @@
 {
   "name": "pcb",
   "displayName": "PCB Design",
-  "version": "2.4",
+  "version": "2.5",
   "description": "Go from a circuit idea to a manufacturable KiCad PCB: requirements, part selection, schematic, placement, autorouting, ERC/DRC and fab outputs (Gerbers, BOM, pick-and-place).",
   "author": {
     "name": "Viraj Rungta"
@@ -45,12 +45,14 @@
     "layers": {
       "type": "string",
       "title": "Default layer count",
-      "description": "2 layers is cheapest and fine for most boards; 4 layers adds a solid ground plane for dense or noise-sensitive designs.",
+      "description": "Auto lets the AI pick from the design's complexity (and explains why); 2 is cheapest; 4 and 6 add solid ground and power planes.",
       "options": [
+        "Auto",
         "2",
-        "4"
+        "4",
+        "6"
       ],
-      "default": "2"
+      "default": "Auto"
     },
     "learning": {
       "type": "boolean",

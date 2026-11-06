@@ -46,6 +46,27 @@ def _checkpoint(done, summary, d, nxt):
     ui.always(line)
 
 
+def _snapshot(pdir):
+    """Copy of the project folder, to put back if a rebuild turns out worse."""
+    import shutil, tempfile
+    tmp = tempfile.mkdtemp(prefix="kipcb_prev_")
+    dst = os.path.join(tmp, "p")
+    shutil.copytree(pdir, dst)
+    return dst
+
+
+def _restore(snap, pdir):
+    import shutil
+    shutil.rmtree(pdir, ignore_errors=True)
+    shutil.copytree(snap, pdir)
+    _drop(snap)
+
+
+def _drop(snap):
+    import shutil
+    shutil.rmtree(os.path.dirname(snap), ignore_errors=True)
+
+
 def _auto_sized(d):
     b = d.raw.get("board", {}) if isinstance(d.raw.get("board"), dict) else {}
     return not (b.get("width") and b.get("height")) and b.get("auto_shrink", True)
@@ -125,6 +146,9 @@ def run(spec_path, out=None, do_fab=True, force=False, passes=100, timeout=600, 
 
     if not resume:
         ui.always("check  ok: %d parts, %d nets, %d warning(s)" % (len(d.components), len(d.nets), len(d.warnings)))
+        lc = getattr(d, "layer_choice", None)
+        if lc and lc["auto"]:
+            ui.always("       layers %d (auto: %s)" % (lc["layers"], "; ".join(lc["reasons"])))
         for line in getattr(d, "block_summary", []):
             ui.always("       block " + line)
         for line in getattr(d, "support", []):
@@ -193,25 +217,44 @@ def run(spec_path, out=None, do_fab=True, force=False, passes=100, timeout=600, 
         # safety net for auto-sizing: a board shrunk too far is rebuilt a step larger and
         # routed again (the failure is in the experience log, so similar boards start larger)
         b = report._load(pdir, "build.json") or {}
-        grown, auto = 0, _auto_sized(d)
+        grown, auto, before = 0, _auto_sized(d), None
         while rj.get("unconnected") and auto and grown < 2:
+            if before is not None and rj["unconnected"] >= before:
+                ui.always("route  a larger board didn't help (%d connection(s) left either way); stopping there"
+                          % rj["unconnected"])
+                break                   # not a size problem: don't spend another routing run on it
+            before = rj["unconnected"]
             grown += 1
             W, H = math.ceil(b.get("width", 0) * 1.06), math.ceil(b.get("height", 0) * 1.06)
             ui.always("route  %d connection(s) left on %.0f x %.0f mm; rebuilding at %d x %d mm and routing again"
                       % (rj["unconnected"], b.get("width", 0), b.get("height", 0), W, H))
+            # keep the board we have: a rebuild can place worse (preflight fails) or route
+            # worse, and then the nearly-routed board is better than none
+            prev, prev_wh = _snapshot(pdir), (d.board.get("width"), d.board.get("height"))
             d.board["width"], d.board["height"] = W, H
             from . import build as buildmod, preflight
             t = time.time()
             if buildmod.build(spec_path, out, render=True, design=d) == 2 or preflight.run(pdir, d.name, d):
+                _restore(prev, pdir)
+                d.board["width"], d.board["height"] = prev_wh
+                ui.always("route  the %d x %d mm rebuild didn't pass preflight; keeping the %.0f x %.0f mm board "
+                          "(%d connection(s) left)" % (W, H, b.get("width", 0), b.get("height", 0), before))
                 break
             routemod.route(pdir, d.name, passes=passes, timeout=timeout)
             timings["route"] += round(time.time() - t)
             rj = report._load(pdir, "route.json") or {}
+            ui.always("route  %s on %d x %d mm" % ("complete" if not rj.get("unconnected") else
+                                                   "%d unconnected" % rj["unconnected"], W, H))
+            if rj.get("unconnected", 0) > before:
+                _restore(prev, pdir)
+                d.board["width"], d.board["height"] = prev_wh
+                rj = report._load(pdir, "route.json") or {}
+                ui.always("route  keeping the smaller board (%d connection(s) left)" % before)
+                break
+            _drop(prev)
             b = report._load(pdir, "build.json") or {}
             drc = report._load(pdir, "drc.json") or {}
             errs = sum(1 for v in drc.get("violations", []) if v.get("severity") == "error")
-            ui.always("route  %s on %d x %d mm" % ("complete" if not rj.get("unconnected") else
-                                                   "%d unconnected" % rj["unconnected"], W, H))
         left = rj.get("unconnected") or errs
         mark("route", not left, ("%d unrouted" % rj["unconnected"]) if rj.get("unconnected") else
              ("%d DRC error(s)" % errs if errs else ""))

@@ -17,7 +17,9 @@ order in one to three runs:
 - Through-hole and SMD parts down to 0402 and 0.5 mm-pitch packages
   (SOIC, TSSOP, SOT, QFN/LQFP up to ~48 pins with few signals).
 - 2-layer boards up to roughly 10 connections per cm² (most hobby and
-  product boards); 4-layer boards for denser or noise-sensitive designs.
+  product boards); 4- and 6-layer boards with solid inner GND and power
+  planes for denser or noise-sensitive designs. The layer count is chosen
+  automatically (and explained) unless the user picks one.
 - Ground pours, stitching, noise checks, Gerbers, BOM and pick-and-place
   files for JLCPCB, PCBWay, OSH Park or any other manufacturer.
 
@@ -25,12 +27,14 @@ order in one to three runs:
 
 The schematic, parts and placement are produced as usual, but autorouting
 may leave a few connections near the chip. Say so up front and offer the
-choices: 4 layers, a few minutes of hand routing in KiCad, or an
+choices: a larger board, a few minutes of hand routing in KiCad, or an
 easier alternative.
 
 - **0.4 mm-pitch chips with many signals**: the RP2040 (`rp2040_minimal`),
   and similar QFN-48+ microcontrollers. Easier alternative with the same job:
   an ESP32-S3 or ESP32-C3 module (Wi-Fi included), or an RP2040 module.
+  These route best on **2 layers** today; 4 layers can leave more
+  connections near the chip, so auto mode keeps them on 2.
 - **STM32 in LQFP-48** (`stm32f103c8_core`): usually routes on 2 layers with
   room around the chip; dense boards may need 4 layers.
 - Very dense boards (preflight's density check warns): enlarge the board or
@@ -46,14 +50,14 @@ easier alternative.
 - Mains voltage (110/230 V AC) and high-voltage or high-current power
   stages: the pipeline can draw them but doesn't verify creepage, isolation
   or safety; a qualified person must review.
-- More than 4 layers.
+- More than 6 layers.
 
 ## How to tell the user
 
 Keep it to two or three lines after the requirements are known:
 
 > Everything here is automatic except the RP2040: its 0.4 mm pins may leave a
-> few connections for 4 layers or a quick hand-route in KiCad. Want to keep it,
+> few connections for a quick hand-route in KiCad. Want to keep it,
 > or use an ESP32-S3 module, which routes automatically?
 
 If everything is automatic, one line is enough ("All of this is standard;

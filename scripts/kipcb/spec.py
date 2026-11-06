@@ -113,8 +113,30 @@ class Design(object):
         self.no_connect = set()
         self.auto_classes = []
         self._load()
+        self._choose_layers()
         self._fit_tracks_to_pitch()
         self._support_levels()
+
+    def _choose_layers(self):
+        """Two modes: a layer count the user chose (2, 4 or 6) is used as is; "auto", or no
+        count at all, lets kipcb decide from the design's complexity (stackup.choose). The
+        choice and its reasons are kept in self.layer_choice for the report."""
+        self.layer_choice = None
+        want = self.board.get("layers", "auto")
+        if isinstance(want, str) and want.strip().lower() == "auto":
+            from . import stackup
+            n, reasons = stackup.choose(self)
+            self.board["layers"] = n
+            self.layer_choice = {"layers": n, "auto": True, "reasons": reasons}
+            return
+        try:
+            n = int(want)
+        except (TypeError, ValueError):
+            raise SpecError('board.layers must be 2, 4, 6 or "auto" (got %r)' % (want,))
+        if n not in (2, 4, 6):
+            raise SpecError("board.layers must be 2, 4 or 6 (got %d)" % n)
+        self.board["layers"] = n
+        self.layer_choice = {"layers": n, "auto": False, "reasons": ["chosen in the spec"]}
 
     def _support_levels(self):
         """Fine-pitch chips outside blocks get the same up-front note as advanced blocks."""
@@ -295,6 +317,8 @@ class Design(object):
     # ------------------------------------------------------------ checks
     def validate(self):
         """Run electrical sanity checks. Fills self.errors / self.warnings."""
+        from . import stackup
+        self.errors.extend(stackup.check(self))
         for c in self.components:
             for p in c.sym.pins:
                 key = (c.ref, p["number"])

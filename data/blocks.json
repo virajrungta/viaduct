@@ -316,7 +316,7 @@
     "title": "RP2040 with 16 MB QSPI flash, 12 MHz crystal, USB, BOOTSEL and RESET",
     "description": "Raspberry Pi RP2040 minimal system, from the hardware design guide and 14 open-source RP2040 boards: W25Q128JVS flash (JLCPCB basic), 12 MHz crystal (20 pF load) with 30 pF caps and a 1k XOUT resistor, 100 nF on every IOVDD/DVDD pin, 1 uF on VREG_VIN and VREG_VOUT (the internal 1.1 V core regulator feeds DVDD), 27R USB series resistors, BOOTSEL button (1k from QSPI_SS) and a RUN pull-up with RESET button. Keep the flash and crystal right next to the chip; USB_DP/USB_DN are a 90-ohm pair.",
     "support": "advanced",
-    "support_note": "0.4 mm-pitch QFN-56: autorouting may leave a few connections near the chip on 2 layers; use 4 layers or finish them by hand in KiCad. Easier alternative: an ESP32-S3/C3 module.",
+    "support_note": "0.4 mm-pitch QFN-56: autorouting may leave a few connections near the chip; give it room or finish them by hand in KiCad (it currently routes best on 2 layers). Easier alternative: an ESP32-S3/C3 module.",
     "power": ["+3V3", "GND"],
     "autojoin": ["USB_DP", "USB_DN", "SWCLK", "SWDIO", "RUN"],
     "optional": ["USB_DP", "USB_DN", "SWCLK", "SWDIO", "RUN",

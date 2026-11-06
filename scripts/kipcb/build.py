@@ -85,6 +85,7 @@ def build(spec_path, out=None, render=True, placement=None, design=None):
         "placement_failed": info["failed"], "notes": info.get("notes", []),
         "spec_warnings": d.warnings, "spec_notes": getattr(d, "notes", []),
         "power_nets": list(d.power_nets), "ground": d.board.get("ground_pour", "GND"),
+        "planes": info.get("planes", {}), "layer_choice": getattr(d, "layer_choice", None),
         "erc": rc, "parity": len(parity), "placement_issues": len(placement_issues)})
     if render:
         for p in rendermod.render(pdir, d.name):

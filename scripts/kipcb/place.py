@@ -20,6 +20,9 @@ import math
 
 GAP = 0.3          # legacy default gap, used for board-size estimates
 BIG_NET = 6        # nets with more pins than this (GND, rails) get lower weight
+# mm, nearest cap pad centre to pin centre. Calibrated against preflight (which fails at
+# 2.5 mm pad edge to pad edge): caps at 3.6-3.8 mm centre distance pass it, 5.8+ fail
+FAR_DECOUPLING = 4.5
 
 
 _CS = {0: (1.0, 0.0), 90: (0.0, 1.0), 180: (-1.0, 0.0), 270: (0.0, -1.0)}   # exact cos/sin
@@ -447,6 +450,28 @@ class Placer(object):
         # 5. align resistors/capacitors to one orientation where it's free (assembly and
         #    inspection prefer it; real boards: 69% of R/C share one orientation)
         self.align_passives()
+        # 6. decoupling caps that ended up far from their supply pin: the board is too
+        #    small or too crowded around that chip (auto-size treats this like a squeeze)
+        #    Same question preflight asks: is the nearest capacitor on that supply net close
+        #    to the pin? (Another cap on the same rail may cover it.)
+        caps = [(q, q.pad_abs(q.x, q.y, q.rot)) for q in self.parts
+                if q.x is not None and q.ref[:1] == "C" and q.ref[1:2].isdigit()]
+        checked = set()
+        for p in self.parts:
+            if p.ref[:1] != "C" or not p.ref[1:2].isdigit():
+                continue                    # decoupling: a capacitor aimed at a supply pin
+            tgt = self._near_target(p) if p.x is not None else None
+            if not tgt or not tgt[2] or isinstance(tgt[2], frozenset):
+                continue
+            if p.hint["near"] in checked:
+                continue
+            checked.add(p.hint["near"])
+            tx, ty, net = tgt
+            d = min((math.hypot(x - tx, y - ty) for _, pads in caps for _, x, y, n in pads if n == net),
+                    default=None)
+            if d is not None and d > FAR_DECOUPLING:
+                self.log.append("nearest capacitor is %.1f mm from %s (decoupling belongs at the pin)" % (
+                    d, p.hint["near"]))
         return failed
 
     def align_passives(self, tolerance=0.15):

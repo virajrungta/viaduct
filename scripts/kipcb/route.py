@@ -214,10 +214,17 @@ def add_stitching_vias(board, net_name, pitch=5.0, drill=0.3, dia=0.6):
     return added
 
 
+def _has_planes(pn, board):
+    return any(board.GetLayerType(l) == pn.LT_POWER for l in board.GetEnabledLayers().CuStack())
+
+
 def _rules_file(board, path, bottom_cost, fanout=False):
     """Freerouting autoroute settings. Making the bottom layer expensive keeps
     signals on top so the bottom stays an unbroken ground plane (less noise)."""
-    names = [board.GetLayerName(l) for l in board.GetEnabledLayers().CuStack()]
+    pn = pcbnew()
+    # plane layers are not routing layers: leave them out so the router doesn't run tracks there
+    names = [board.GetLayerName(l) for l in board.GetEnabledLayers().CuStack()
+             if board.GetLayerType(l) != pn.LT_POWER]
     lines = ["(rules PCB board", "  (snap_angle fortyfive_degree)", "  (autoroute_settings",
              "    (fanout %s) (autoroute on) (postroute on) (vias on)" % ("on" if fanout else "off"),
              "    (via_costs 50) (plane_via_costs 5) (start_ripup_costs 100) (start_pass_no 1)"]
@@ -289,6 +296,10 @@ def _prepare(pn, board, jar, dsn, ses, passes, timeout, bottom_cost=None, fanout
     if os.path.exists(rules):
         os.remove(rules)
     extra = []
+    # boards with inner planes (stackup.py): Freerouting reaches a plane from a surface pad
+    # in its fan-out pass (a short stub and a via); without it the plane nets stay unrouted
+    if _has_planes(pn, board):
+        fanout = True
     if bottom_cost:
         _rules_file(board, rules, bottom_cost, fanout)
         extra = ["-dr", rules]
@@ -297,7 +308,10 @@ def _prepare(pn, board, jar, dsn, ses, passes, timeout, bottom_cost=None, fanout
     if os.path.exists(ses):
         os.remove(ses)
     budget = max(10, timeout)
-    cmd = ["java", "-jar", jar, "-de", dsn, "-do", ses] + extra + ["-mp", str(passes),
+    # apple.awt.UIElement: Java still starts its macOS UI layer with the GUI off, which puts a
+    # Java icon in the Dock and pulls focus away from whatever the user is doing (Chrome...)
+    # every time an attempt starts. As a background element it never takes focus.
+    cmd = ["java", "-Dapple.awt.UIElement=true", "-jar", jar, "-de", dsn, "-do", ses] + extra + ["-mp", str(passes),
            "--router.max_passes=%d" % passes,
            "--router.job_timeout=%02d:%02d:%02d" % (budget // 3600, budget % 3600 // 60, budget % 60),
            "--gui.enabled=false"]
@@ -484,9 +498,19 @@ def route(pdir, name, passes=100, timeout=600, pour=True, attempts_max=4):
                   ", ".join(stray), "is" if len(stray) == 1 else "are", "its" if len(stray) == 1 else "their"))
         return 3
     _strip_routing(board)
+    # inner planes (4+ layers) go back before routing: the router connects to them with vias
+    from . import paths, stackup
+    planes = (paths.load_json(os.path.join(pdir, "reports", "build.json"), {}) or {}).get("planes") or {}
+    if stackup.apply(board, planes):
+        ui.say("planes: " + ", ".join("%s %s" % (l, n) for l, n in sorted(planes.items())))
     fan = fanout(board)
     if any(fan):
         ui.say("fan-out: %d escape stubs, %d same-net bridges on fine-pitch chips" % fan)
+    board._kipcb_vias = []
+    pv = plane_vias(board, planes)
+    if pv[0]:
+        ui.say("planes: %d pad(s) connected to their plane with a via%s" % (
+            pv[0], (", %d had no room (routed instead)" % pv[1]) if pv[1] else ""))
     ns = board.GetDesignSettings().m_NetSettings
     power = ns.GetNetClassByName("Power") if ns.HasNetclass("Power") else None
     base_w = power.GetTrackWidth() if power is not None else None
@@ -546,7 +570,7 @@ def route(pdir, name, passes=100, timeout=600, pour=True, attempts_max=4):
             dsn_i = os.path.join(out, "%s.attempt%d.dsn" % (name, k + 1))
             ses_i = dsn_i[:-4] + ".ses"
             cmd, log_i = _prepare(pn, board, jar, dsn_i, ses_i, passes, cap, bcost,
-                                  protect=bool(getattr(board, "_kipcb_fanout", None)))
+                                  protect=bool(getattr(board, "_kipcb_fanout", None) or getattr(board, "_kipcb_vias", None)))
             procs.append((k, i, _launch(cmd, log_i, out), log_i, ses_i, time.time()))
         for k, i, proc, log_i, ses_i, t0 in procs:
             if done:
@@ -875,30 +899,152 @@ def fanout(board, stub=0.6, max_pitch=0.52, min_pads=24):
     return stubs, bridges
 
 
+def plane_vias(board, planes, step=0.25, tries=4):
+    """Connect every surface pad on a plane net to its plane, as a designer does on a
+    4-layer board: a short locked stub from the pad to a via just beside it. Freerouting
+    doesn't make these connections itself, so without them a plane net is left unrouted.
+    Placed after fanout(), recorded with it so every routing attempt starts with them.
+    Returns (vias, pads that found no room)."""
+    if not planes:
+        return 0, 0
+    pn = pcbnew()
+    ds = board.GetDesignSettings()
+    ns = ds.m_NetSettings
+    default = ns.GetDefaultNetclass()
+    via_d, via_drill = default.GetViaDiameter(), default.GetViaDrill()
+    clr = max(ds.m_MinClearance, default.GetClearance())
+    edge = mm(0.5) + via_d // 2
+    bb = board.GetBoardEdgesBoundingBox()
+    plane_nets = {board.FindNet(n).GetNetCode() for n in set(planes.values()) if board.FindNet(n) is not None}
+    all_pads = [p for fp in board.GetFootprints() for p in fp.Pads()]
+    placed = []                                  # (x, y, netcode) of vias placed here
+    board._kipcb_vias = getattr(board, "_kipcb_vias", [])
+    tracks = [t for t in board.GetTracks()]
+
+    def free(q, net, r):
+        if not (bb.GetLeft() + edge <= q.x <= bb.GetRight() - edge and bb.GetTop() + edge <= q.y <= bb.GetBottom() - edge):
+            return False
+        for p in all_pads:                       # a via spans every layer: check pads on both sides
+            if p.GetNetCode() != net and p.HitTest(q, r):
+                return False
+        for t in tracks:
+            if t.GetNetCode() != net and t.HitTest(q, r):
+                return False
+        for x, y, n in placed:
+            if ((x - q.x) ** 2 + (y - q.y) ** 2) ** 0.5 < (via_d + (clr if n != net else 0)):
+                return False
+        return True
+
+    def stub_clear(a, b, net, w):
+        steps = max(2, int(((b.x - a.x) ** 2 + (b.y - a.y) ** 2) ** 0.5 / mm(0.05)))
+        for i in range(steps + 1):
+            q = pn.VECTOR2I(int(a.x + (b.x - a.x) * i / steps), int(a.y + (b.y - a.y) * i / steps))
+            for p in all_pads:
+                if p.GetNetCode() != net and p.HitTest(q, int(clr + w / 2)):
+                    return False
+        return True
+
+    def fine_pitch(fp):
+        pts = [p.GetPosition() for p in fp.Pads()]
+        if len(pts) < 8:
+            return False
+        near = min(((a.x - b.x) ** 2 + (a.y - b.y) ** 2) ** 0.5 for i, a in enumerate(pts) for b in pts[i + 1:]
+                   if (a.x, a.y) != (b.x, b.y))
+        return near < mm(0.65)
+
+    vias = missed = 0
+    for fp in board.GetFootprints():
+        if fine_pitch(fp):
+            # a fine-pitch chip's supply pins run a short trace to their decoupling cap and
+            # reach the plane through the cap's via, as designers do: vias between 0.4-0.5 mm
+            # pins would block the escape routes the signal pins need
+            continue
+        c = fp.GetPosition()
+        for pad in fp.Pads():
+            net = pad.GetNetCode()
+            if net not in plane_nets or pad.GetAttribute() != pn.PAD_ATTRIB_SMD:
+                continue                         # through-hole pads already reach the plane
+            layer = pn.F_Cu if pad.IsOnLayer(pn.F_Cu) else pn.B_Cu
+            pos, pb = pad.GetPosition(), pad.GetBoundingBox()
+            dx, dy = pos.x - c.x, pos.y - c.y
+            out = (1 if dx > 0 else -1, 0) if abs(dx) >= abs(dy) else (0, 1 if dy > 0 else -1)
+            dirs = [out, (out[1], out[0]), (-out[1], -out[0]), (-out[0], -out[1])]
+            w = min(ns.GetEffectiveNetClass(pad.GetNetname()).GetTrackWidth(), pb.GetWidth(), pb.GetHeight())
+            done = False
+            for ddx, ddy in dirs:
+                half = (pb.GetWidth() if ddx else pb.GetHeight()) // 2
+                for k in range(tries):
+                    d = half + clr + via_d // 2 + mm(step * k)
+                    q = pn.VECTOR2I(int(pos.x + ddx * d), int(pos.y + ddy * d))
+                    if free(q, net, via_d // 2 + clr) and stub_clear(pos, q, net, w):
+                        v = pn.PCB_VIA(board)
+                        v.SetPosition(q)
+                        v.SetWidth(via_d)
+                        v.SetDrill(via_drill)
+                        v.SetNet(pad.GetNet())
+                        v.SetLocked(True)
+                        board.Add(v)
+                        t = pn.PCB_TRACK(board)
+                        t.SetStart(pos)
+                        t.SetEnd(q)
+                        t.SetWidth(w)
+                        t.SetLayer(layer)
+                        t.SetNet(pad.GetNet())
+                        t.SetLocked(True)
+                        board.Add(t)
+                        placed.append((q.x, q.y, net))
+                        tracks.append(t)
+                        board._kipcb_vias.append((q, via_d, via_drill, pad.GetNet()))
+                        board._kipcb_fanout.append((pos, q, w, pad.GetNet()) + ((layer,) if layer != pn.F_Cu else ()))
+                        vias += 1
+                        done = True
+                        break
+                if done:
+                    break
+            if not done:
+                missed += 1
+    return vias, missed
+
+
 def _reset_to_fanout(board):
     """Remove all tracks and vias, then put the fan-out stubs back (each routing attempt
     starts from the same escape stubs, not from the previous attempt's routing)."""
     pn = pcbnew()
     for t in list(board.GetTracks()):
         _delete(board, t)
-    for a, b, width, net in getattr(board, "_kipcb_fanout", []):
+    for item in getattr(board, "_kipcb_fanout", []):
+        a, b, width, net = item[:4]
         t = pn.PCB_TRACK(board)
         t.SetStart(a)
         t.SetEnd(b)
         t.SetWidth(width)
-        t.SetLayer(pn.F_Cu)
+        t.SetLayer(item[4] if len(item) > 4 else pn.F_Cu)
         t.SetNet(net)
         t.SetLocked(True)
         board.Add(t)
+    for q, dia, drill, net in getattr(board, "_kipcb_vias", []):
+        v = pn.PCB_VIA(board)
+        v.SetPosition(q)
+        v.SetWidth(dia)
+        v.SetDrill(drill)
+        v.SetNet(net)
+        v.SetLocked(True)
+        board.Add(v)
 
 
 def _dedupe_fanout(board):
     """The router hands protected stubs back as ordinary wires: drop those copies."""
-    keys = {(min((a.x, a.y), (b.x, b.y)), max((a.x, a.y), (b.x, b.y)))
-            for a, b, _, _ in getattr(board, "_kipcb_fanout", [])}
+    keys = {(min((it[0].x, it[0].y), (it[1].x, it[1].y)), max((it[0].x, it[0].y), (it[1].x, it[1].y)))
+            for it in getattr(board, "_kipcb_fanout", [])}
+    tol = mm(0.002)
+    vias = [(q.x, q.y) for q, _, _, _ in getattr(board, "_kipcb_vias", [])]
+    for t in list(board.GetTracks()):                  # ... and the plane vias
+        if t.GetClass() == "PCB_VIA" and not t.IsLocked():
+            p = t.GetPosition()
+            if any(abs(p.x - x) <= tol and abs(p.y - y) <= tol for x, y in vias):
+                _delete(board, t)
     if not keys:
         return
-    tol = mm(0.002)
     for t in list(board.GetTracks()):
         if t.IsLocked() or t.GetClass() != "PCB_TRACK":
             continue

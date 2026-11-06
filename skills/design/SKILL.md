@@ -64,6 +64,8 @@ anything already stated:
 3. **I/O**: which connectors, on which edges.
 4. **Noise**: anything sensitive (analog sensors, audio, ADC precision, RF)?
    Sensitive boards: 4 layers, or a fixed size / `"auto_shrink": false`.
+   Layers default to `"auto"` (the user's default setting wins if it's a number);
+   relay `kipcb check`'s `LAYERS:` line so the user knows what was chosen and why.
 
 Confirm the key features too if the idea is vague. Record the answers in
 `requirements`, and keep a short list of assumptions for the hand-off.
@@ -80,9 +82,9 @@ design work, together with the expected time:
   about N minutes").
 - Anything advanced: name it, say what it may need, and offer the easier
   alternative in the same AskUserQuestion round if one exists (e.g. RP2040 →
-  ESP32-S3 module or 4 layers). Ask only when the choice changes the design.
+  ESP32-S3 module). Ask only when the choice changes the design.
 - Anything not supported (BGA, custom RF/antennas, DDR/HDMI/high-speed,
-  mains, >4 layers): say so plainly and propose the module or human-review
+  mains, >6 layers): say so plainly and propose the module or human-review
   route; never promise it.
 
 `kipcb check` repeats this as `SUPPORT:` lines; if one appears that you
@@ -127,7 +129,7 @@ cover every field:
 {
   "name": "plant_sensor", "title": "USB-C ESP32-C3 plant sensor",
   "requirements": {"size": "small", "power": "USB-C 5 V", "noise": "one analog input"},
-  "board": {"layers": 2, "mounting_holes": {"size": "M2"}},
+  "board": {"layers": "auto", "mounting_holes": {"size": "M2"}},
   "power_nets": "GND VBUS +3V3",
   "blocks": [
     {"use": "usb_c_data", "params": {"edge": "bottom"}},

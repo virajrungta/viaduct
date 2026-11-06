@@ -161,6 +161,9 @@ def cmd_check(a):
     print(d.summary())
     for line in getattr(d, "block_summary", []):
         print("block " + line)
+    lc = getattr(d, "layer_choice", None)
+    if lc:
+        print("LAYERS: %d (%s: %s)" % (lc["layers"], "auto" if lc["auto"] else "chosen", "; ".join(lc["reasons"])))
     for line in getattr(d, "support", []):
         print("SUPPORT: " + line)
     for n in getattr(d, "notes", []):
@@ -365,7 +368,7 @@ def cmd_settings(a):
     s = learn.settings()
     print("manufacturer:  %s" % s.get("fab_house", "JLCPCB (default)"))
     print("build method:  %s" % s.get("build_method", "Assembled by the manufacturer (default)"))
-    print("layers:        %s" % s.get("layers", "2 (default)"))
+    print("layers:        %s" % s.get("layers", "auto (default)"))
     print("learning:      %s" % ("on" if learn.enabled() else "off"))
     print("status bar:    %s" % ("PCB progress" if progress.statusline_installed() else "not set"))
     print("change with:   /plugin configure pcb@pcb-claude-plugin")
