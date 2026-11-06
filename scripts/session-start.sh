@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SessionStart hook for the PCB Design plugin.
+# SessionStart hook for the Viaduct plugin.
 #  - saves the install-time settings where kipcb can read them
 #  - welcomes the user after install, and announces new versions after an update
 #  - warns (only) when a required tool is missing
@@ -99,18 +99,18 @@ SEEN_FILE="$DATA/last-version"
 SEEN="$(cat "$SEEN_FILE" 2>/dev/null || true)"
 msg=""
 if [[ -z "$SEEN" ]]; then
-  msg="PCB Design plugin V$VERSION installed. Try: /pcb:design a USB-C powered board with an ESP32 and a temperature sensor. Defaults: $FAB, $BUILD, layers $LAYERS (change with /plugin configure pcb@pcb-claude-plugin)."
+  msg="Viaduct V$VERSION installed. Try: /viaduct:design a USB-C powered board with an ESP32 and a temperature sensor. Defaults: $FAB, $BUILD, layers $LAYERS (change with /plugin configure viaduct@viaduct)."
 elif [[ "$SEEN" != "$VERSION" ]]; then
-  msg="PCB Design plugin updated to V$VERSION. What's new: https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v$VERSION"
+  msg="Viaduct updated to V$VERSION. What's new: https://github.com/virajrungta/viaduct/releases/tag/v$VERSION"
 fi
 echo "$VERSION" > "$SEEN_FILE" 2>/dev/null
 
 if (( ${#missing[@]} )); then
   needs="$(printf '%s; ' "${missing[@]}")"
-  msg="${msg:+$msg }PCB Design plugin needs: ${needs%; }. Run kipcb doctor for details."
+  msg="${msg:+$msg }Viaduct needs: ${needs%; }. Run kipcb doctor for details."
 fi
 
-context="PCB plugin defaults from the user's settings: manufacturer $FAB; build: $BUILD; layers: $LAYERS (auto = let kipcb choose from the design; a number = use it as board.layers); learning ${LEARN}."
+context="Viaduct (PCB design plugin) defaults from the user's settings: manufacturer $FAB; build: $BUILD; layers: $LAYERS (auto = let kipcb choose from the design; a number = use it as board.layers); learning ${LEARN}."
 if [[ -n "${router_missing:-}" ]]; then
   context="$context Freerouting is not installed yet; ask the user before running kipcb setup-router (downloads ~65 MB)."
 fi

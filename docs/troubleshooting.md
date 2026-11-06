@@ -64,7 +64,7 @@ takes priority over the copy shipped with the plugin.
 
 **Windows: `\r: command not found` or `bad interpreter`**
 A script was checked out with Windows (CRLF) line endings. Reinstall the plugin
-(`claude plugin uninstall pcb@pcb-claude-plugin`, then install again); the
+(`claude plugin uninstall viaduct@viaduct`, then install again); the
 repository pins scripts to LF, so a fresh install fixes it.
 
 **Windows: Claude Code can't run commands**
@@ -73,4 +73,4 @@ Claude Code after installing it.
 
 **Something else**
 Run `kipcb doctor` and include its output when you
-[open an issue](https://github.com/virajrungta/pcb-claude-plugin/issues).
+[open an issue](https://github.com/virajrungta/viaduct/issues).

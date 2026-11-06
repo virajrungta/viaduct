@@ -15,8 +15,8 @@ Two modes, picked from the argument and anything attached:
 
 Both: answer first, then the reasoning. Be specific to what the user asked;
 no generic checklists. Don't edit or create files unless the user asks. If a
-question turns into "make me a board", offer `/pcb:design`; if the user wants
-a full sign-off before ordering, offer `/pcb:review`.
+question turns into "make me a board", offer `/viaduct:design`; if the user wants
+a full sign-off before ordering, offer `/viaduct:review`.
 
 `kipcb` is on PATH (fallback `${CLAUDE_PLUGIN_ROOT}/bin/kipcb`).
 
@@ -60,7 +60,7 @@ Look at what was shared, use the tools that fit it, then report.
 **Schematic only** (a `.kicad_sch`, no board yet): `kipcb erc <file>`,
 `kipcb inspect <file>` (the wiring comparison above), and `kipcb netlist <file>`
 plus `kipcb render <file>` for the circuit itself. Then, if they want a board,
-offer `/pcb:design` to turn the schematic into one: read the netlist and write
+offer `/viaduct:design` to turn the schematic into one: read the netlist and write
 a spec with the same parts and nets.
 
 **kipcb spec** (`.json`): `kipcb check <spec>`, then

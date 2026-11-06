@@ -41,7 +41,7 @@ open(p, "w").write(s)
 # headline, else the first bullet's bold lead
 head = re.search(r"^\*\*(.+?)\*\*", notes, re.M) or re.search(r"^- \*\*(.+?)\*\*", notes, re.M)
 summary = head.group(1).strip().rstrip(":") if head else notes.splitlines()[0].lstrip("- ")
-row = "| [V%s](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v%s) | %s | %s |" % (v, v, today, summary)
+row = "| [V%s](https://github.com/virajrungta/viaduct/releases/tag/v%s) | %s | %s |" % (v, v, today, summary)
 for p in ("README.md", "RELEASES.md"):
     t = open(p).read()
     i = t.find("| Version | Date | What's new |\n|---|---|---|\n")

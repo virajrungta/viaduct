@@ -9,6 +9,35 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.6 - 2026-11-05
+
+**The plugin is now Viaduct.**
+
+Same plugin, new name: commands are now `/viaduct:design`, `/viaduct:review`,
+`/viaduct:inquiry` and `/viaduct:fab`, the repo is
+[virajrungta/viaduct](https://github.com/virajrungta/viaduct), and there's a
+website at [virajrungta.github.io/viaduct-site](https://virajrungta.github.io/viaduct-site/).
+
+### Move to the new name
+
+The plugin and marketplace were renamed, so `plugin update` can't carry an
+existing install across. Remove the old one and install Viaduct (your settings
+are asked again; your boards and learned data are kept):
+
+```bash
+claude plugin uninstall pcb@pcb-claude-plugin
+claude plugin marketplace remove pcb-claude-plugin
+claude plugin marketplace add virajrungta/viaduct
+claude plugin install viaduct@viaduct
+```
+
+### What changed
+
+- **New name and logo.** Commands, the reviewer agent
+  (`viaduct:circuit-reviewer`), docs and messages all say Viaduct. The
+  `kipcb` engine and your spec files are unchanged.
+- **Website** with install steps, example boards and what's next.
+
 ## V2.5 - 2026-11-05
 
 **4- and 6-layer boards, with the layer count chosen for you.**
@@ -249,7 +278,7 @@ winget install EclipseAdoptium.Temurin.21.JDK
 Then, as on macOS:
 
 ```bash
-claude plugin marketplace add virajrungta/pcb-claude-plugin
+claude plugin marketplace add virajrungta/viaduct
 claude plugin install pcb@pcb-claude-plugin
 ```
 
@@ -528,7 +557,7 @@ Already using the plugin on macOS? Update as usual
   autorouter is missing, and otherwise stays quiet.
 - **`kipcb settings`** shows your defaults.
 - **Install guide**: one-line install (`/plugin install pcb --marketplace
-  virajrungta/pcb-claude-plugin`), the setup dialog, desktop-app and terminal
+  virajrungta/viaduct`), the setup dialog, desktop-app and terminal
   installs, auto-update, updating, changing settings and uninstalling are all
   documented in the README.
 

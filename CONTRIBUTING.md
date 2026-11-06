@@ -3,11 +3,11 @@
 ## Development setup
 
 ```bash
-git clone https://github.com/virajrungta/pcb-claude-plugin
+git clone https://github.com/virajrungta/viaduct
 ```
 
 ```bash
-cd pcb-claude-plugin && claude --plugin-dir .
+cd viaduct && claude --plugin-dir .
 ```
 
 `--plugin-dir` loads your working copy for one session, so edits to skills or
@@ -58,4 +58,4 @@ Versions are `V<major>.<minor>`: V1.0, then V1.1, V1.2… each week.
    Actions then publishes the release page from the changelog.
 
 Users with auto-update on get it automatically; others use `/plugin` →
-**Installed** → **Update now**, or `claude plugin update pcb@pcb-claude-plugin`.
+**Installed** → **Update now**, or `claude plugin update viaduct@viaduct`.

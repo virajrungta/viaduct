@@ -1,15 +1,16 @@
 {
-  "name": "pcb",
-  "displayName": "PCB Design",
-  "version": "2.5",
-  "description": "Go from a circuit idea to a manufacturable KiCad PCB: requirements, part selection, schematic, placement, autorouting, ERC/DRC and fab outputs (Gerbers, BOM, pick-and-place).",
+  "name": "viaduct",
+  "displayName": "Viaduct",
+  "version": "2.6",
+  "description": "Viaduct: describe a circuit board and get a manufacturable KiCad PCB: requirements, part selection, schematic, placement, autorouting, ERC/DRC and fab outputs (Gerbers, BOM, pick-and-place).",
   "author": {
     "name": "Viraj Rungta"
   },
-  "homepage": "https://github.com/virajrungta/pcb-claude-plugin",
-  "repository": "https://github.com/virajrungta/pcb-claude-plugin",
+  "homepage": "https://virajrungta.github.io/viaduct-site/",
+  "repository": "https://github.com/virajrungta/viaduct",
   "license": "MIT",
   "keywords": [
+    "viaduct",
     "pcb",
     "kicad",
     "electronics",
@@ -66,5 +67,6 @@
       "description": "While a board is being designed, Claude Code's status bar shows a live progress bar (\u25a0\u25a0\u25a0\u25a0\u25a0\u25a1\u25a1\u25a1\u25a1 5/9 \u25b6 Routing ~1 min). Never replaces a status line you already have.",
       "default": true
     }
-  }
+  },
+  "icon": ".claude-plugin/icon.png"
 }

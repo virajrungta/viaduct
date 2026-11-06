@@ -10,7 +10,7 @@ argument-hint: "[project dir or .kicad_pro]"
 
 1. Locate the project (the argument, or the single `.kicad_pro` nearby).
 2. Run `kipcb drc <project>`. If there are errors or unconnected items, stop
-   and explain them. Offer to fix them (via `/pcb:design` for kipcb specs, or
+   and explain them. Offer to fix them (via `/viaduct:design` for kipcb specs, or
    directly in KiCad). `kipcb fab --force` exists, but only use it if the user
    explicitly accepts the risk.
 3. Run `kipcb fab <project>`. The output format follows the user's manufacturer

@@ -21,13 +21,13 @@ Flatpak so that `python3 -c "import pcbnew"` works.
 In Claude Code, run:
 
 ```text
-/plugin install pcb --marketplace virajrungta/pcb-claude-plugin
+/plugin install pcb --marketplace virajrungta/viaduct
 ```
 
 Confirm the marketplace and choose **Install for you**. A setup form asks for
 your usual manufacturer, how boards get built (assembled or hand-soldered),
 your default layer count, and whether kipcb may learn from your boards
-(locally). Change these later with `/plugin configure pcb@pcb-claude-plugin`.
+(locally). Change these later with `/plugin configure viaduct@viaduct`.
 
 Turn on auto-update so weekly versions arrive automatically: `/plugin` →
 **Marketplaces** → **pcb-claude-plugin** → **Enable auto-update**.
@@ -41,7 +41,7 @@ available inside Claude Code sessions). You should see KiCad, `pcbnew` and
 Java reported as OK. If Freerouting shows as not installed, ask Claude to run
 `kipcb setup-router`: it downloads the Freerouting autorouter (~65 MB) from its
 official GitHub releases into kipcb's cache folder (`~/.cache/kipcb` on macOS,
-`%LOCALAPPDATA%\kipcb\cache` on Windows). When you use `/pcb:design`, Claude
+`%LOCALAPPDATA%\kipcb\cache` on Windows). When you use `/viaduct:design`, Claude
 asks before downloading it.
 
 ## 4. Design a board
@@ -49,7 +49,7 @@ asks before downloading it.
 In Claude Code, from the folder where you want the project:
 
 ```
-/pcb:design a USB-C powered ESP32-C3 board with an RGB status LED, reset and boot buttons, and a 4-pin I2C header
+/viaduct:design a USB-C powered ESP32-C3 board with an RGB status LED, reset and boot buttons, and a 4-pin I2C header
 ```
 
 What happens next:
@@ -96,13 +96,13 @@ parts, or hand-route critical nets.
 
 > **Spec vs hand edits.** Claude edits the JSON spec and rebuilds, and a
 > rebuild regenerates the KiCad files. Iterate with Claude first, then switch
-> to KiCad for final polish. After that, `/pcb:review` and `/pcb:fab` work
+> to KiCad for final polish. After that, `/viaduct:review` and `/viaduct:fab` work
 > directly on your edited files.
 
 ## 6. Order boards
 
 ```
-/pcb:fab hardware/<name>
+/viaduct:fab hardware/<name>
 ```
 
 Upload `fab/<name>-gerbers.zip` to your fab (JLCPCB, PCBWay, OSH Park…). For
@@ -112,8 +112,8 @@ part rotations in the fab's preview. Claude never places orders for you.
 ## Questions and feedback
 
 ```
-/pcb:inquiry what pull-ups do I need for I2C at 400 kHz?
-/pcb:inquiry path/to/my_board/
+/viaduct:inquiry what pull-ups do I need for I2C at 400 kHz?
+/viaduct:inquiry path/to/my_board/
 ```
 
 Ask anything about circuits, parts, layout or manufacturing, or point it at a
@@ -123,11 +123,11 @@ quick feedback. Boards are compared with real routed open-source designs.
 ## Try the examples first
 
 ```bash
-git clone https://github.com/virajrungta/pcb-claude-plugin
+git clone https://github.com/virajrungta/viaduct
 ```
 
 ```bash
-cd pcb-claude-plugin && bin/kipcb run examples/usb_blinker.json
+cd viaduct && bin/kipcb run examples/usb_blinker.json
 ```
 
 Then open `examples/usb_blinker/usb_blinker.kicad_pro` in KiCad.

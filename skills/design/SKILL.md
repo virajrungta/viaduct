@@ -46,7 +46,7 @@ of truth: change the spec and rerun, never hand-edit generated `.kicad_*` files.
 - **Datasheets**: `kipcb ref <part>` first (how real designs wire it). WebFetch a
   datasheet only for an IC whose support circuit you can't settle otherwise,
   with a narrow question.
-- **Reviewer agent** (`pcb:circuit-reviewer`): only for complex boards
+- **Reviewer agent** (`viaduct:circuit-reviewer`): only for complex boards
   (switching regulator, battery charging, RF/antenna, motor driver, or >25 parts)
   or when the user asks.
 - The session-start hook already checked the toolchain; run `kipcb doctor`
@@ -193,7 +193,7 @@ Relay the report briefly (≤12 lines): status, **project location**, board size
 and layers, checks, manufacturing files, then your assumptions and anything the
 user should confirm (current limits, part choices, missing LCSC numbers).
 Mention how to open it in KiCad (macOS: `open "<project>.kicad_pro"`; Windows:
-`start "" "<project>.kicad_pro"`, or double-click it) and `/pcb:fab` to order.
+`start "" "<project>.kicad_pro"`, or double-click it) and `/viaduct:fab` to order.
 Be honest: autorouted boards work but aren't optimal; recommend a human review
 for switching regulators, RF and high-speed signals.
 

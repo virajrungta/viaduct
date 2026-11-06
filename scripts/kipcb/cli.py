@@ -371,7 +371,7 @@ def cmd_settings(a):
     print("layers:        %s" % s.get("layers", "auto (default)"))
     print("learning:      %s" % ("on" if learn.enabled() else "off"))
     print("status bar:    %s" % ("PCB progress" if progress.statusline_installed() else "not set"))
-    print("change with:   /plugin configure pcb@pcb-claude-plugin")
+    print("change with:   /plugin configure viaduct@viaduct")
     return 0
 
 

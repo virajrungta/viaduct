@@ -1,22 +1,26 @@
 <div align="center">
 
+<img src=".claude-plugin/icon.png" alt="Viaduct logo" width="96"><br><br>
 <img src="docs/images/c3_sensor_angle.png" alt="A 3D render of an ESP32-C3 board designed, placed and routed by the plugin" width="640">
 
-# PCB Design for Claude Code
+# Viaduct
+
+**PCB design for Claude Code.**
 
 **Describe a circuit board in plain English. Get a manufacturable KiCad project.**
 
 Requirements → parts → schematic → placement → autorouting → checks → Gerbers, BOM and pick-and-place,
 <br>with Claude as your electrical engineer.
 
-<a href="https://github.com/virajrungta/pcb-claude-plugin/releases"><img src="https://img.shields.io/github/v/release/virajrungta/pcb-claude-plugin?label=release&color=2ea44f" alt="Latest release"></a>
-<a href="https://github.com/virajrungta/pcb-claude-plugin/actions/workflows/ci.yml"><img src="https://github.com/virajrungta/pcb-claude-plugin/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-<a href="https://github.com/virajrungta/pcb-claude-plugin/actions/workflows/windows.yml"><img src="https://github.com/virajrungta/pcb-claude-plugin/actions/workflows/windows.yml/badge.svg" alt="Windows"></a>
+<a href="https://github.com/virajrungta/viaduct/releases"><img src="https://img.shields.io/github/v/release/virajrungta/viaduct?label=release&color=2ea44f" alt="Latest release"></a>
+<a href="https://github.com/virajrungta/viaduct/actions/workflows/ci.yml"><img src="https://github.com/virajrungta/viaduct/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+<a href="https://github.com/virajrungta/viaduct/actions/workflows/windows.yml"><img src="https://github.com/virajrungta/viaduct/actions/workflows/windows.yml/badge.svg" alt="Windows"></a>
 <img src="https://img.shields.io/badge/KiCad-9-314cb0" alt="KiCad 9">
 <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows-555" alt="macOS and Windows">
 <img src="https://img.shields.io/badge/Claude%20Code-plugin-d97757" alt="Claude Code plugin">
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
 
+<a href="https://virajrungta.github.io/viaduct-site/"><b>Website</b></a> ·
 <a href="docs/getting-started.md"><b>Getting started</b></a> ·
 <a href="docs/how-it-works.md"><b>How it works</b></a> ·
 <a href="docs/cli.md"><b>CLI reference</b></a> ·
@@ -29,7 +33,7 @@ Requirements → parts → schematic → placement → autorouting → checks �
 ---
 
 ```text
-/pcb:design a USB-C powered ESP32-C3 board with an RGB status LED, reset and boot buttons, and a 4-pin sensor header
+/viaduct:design a USB-C powered ESP32-C3 board with an RGB status LED, reset and boot buttons, and a 4-pin sensor header
 ```
 
 Claude asks a few questions (size, power, connectors, how you'll build it, anything noise-sensitive),
@@ -60,23 +64,23 @@ and hands you files a fab house can build.
     <th align="left">What it does</th>
   </tr>
   <tr>
-    <td><code>/pcb:design [idea]</code></td>
+    <td><code>/viaduct:design [idea]</code></td>
     <td>The full workflow: requirements, part selection, schematic, placement, routing, checks and manufacturing files</td>
   </tr>
   <tr>
-    <td><code>/pcb:review [project]</code></td>
+    <td><code>/viaduct:review [project]</code></td>
     <td>Reviews <i>any</i> KiCad project: ERC, DRC, noise checks, a netlist checklist and renders, as a prioritized list of fixes</td>
   </tr>
   <tr>
-    <td><code>/pcb:inquiry [question or design]</code></td>
+    <td><code>/viaduct:inquiry [question or design]</code></td>
     <td>Ask anything about PCB design, parts or the plugin, or share a design (KiCad project or just a schematic, spec, schematic image or PDF, Gerbers) for quick feedback, compared with real open-source designs</td>
   </tr>
   <tr>
-    <td><code>/pcb:fab [project]</code></td>
+    <td><code>/viaduct:fab [project]</code></td>
     <td>Gerbers and drill zip, JLCPCB-format BOM and pick-and-place file, plus an ordering checklist</td>
   </tr>
   <tr>
-    <td><code>pcb:circuit-reviewer</code></td>
+    <td><code>viaduct:circuit-reviewer</code></td>
     <td>A subagent that gives an independent second opinion on the circuit against datasheets</td>
   </tr>
   <tr>
@@ -155,23 +159,23 @@ the Python that comes with KiCad.
 ### 2. Add the marketplace
 
 ```bash
-claude plugin marketplace add virajrungta/pcb-claude-plugin
+claude plugin marketplace add virajrungta/viaduct
 ```
 
 ### 3. Install the plugin
 
 ```bash
-claude plugin install pcb@pcb-claude-plugin
+claude plugin install viaduct@viaduct
 ```
 
-Or, inside Claude Code, run `/plugin install pcb --marketplace virajrungta/pcb-claude-plugin` instead of steps 2 and 3. That opens a short setup form (below).
+Or, inside Claude Code, run `/plugin install pcb --marketplace virajrungta/viaduct` instead of steps 2 and 3. That opens a short setup form (below).
 
 ### 4. Set your defaults (optional)
 
-Inside Claude Code, open the settings form with `/plugin configure pcb@pcb-claude-plugin`. From a terminal, pass them when installing instead:
+Inside Claude Code, open the settings form with `/plugin configure viaduct@viaduct`. From a terminal, pass them when installing instead:
 
 ```bash
-claude plugin install pcb@pcb-claude-plugin --config fab_house=JLCPCB --config layers=2
+claude plugin install viaduct@viaduct --config fab_house=JLCPCB --config layers=2
 ```
 
 | Setting | Options | What it changes |
@@ -197,14 +201,14 @@ terminal).
 ### 6. Design your first board
 
 ```text
-/pcb:design a 30 x 20 mm USB-C LED blinker with an ATtiny85 and an ISP header
+/viaduct:design a 30 x 20 mm USB-C LED blinker with an ATtiny85 and an ISP header
 ```
 
 <details>
 <summary><b>Desktop app</b></summary>
 
 In the **Code** tab, click **+** next to the prompt box → **Plugins** → **Add plugin**, add the
-marketplace `virajrungta/pcb-claude-plugin`, select **PCB Design**, and choose a scope.
+marketplace `virajrungta/viaduct`, select **Viaduct**, and choose a scope.
 
 </details>
 
@@ -225,18 +229,18 @@ empty when no design is in progress, and turning the option off removes it.
 
 ## Updating
 
-A new version ships every week (see the [changelog](CHANGELOG.md) and [releases](https://github.com/virajrungta/pcb-claude-plugin/releases)). Third-party plugins don't update on their own unless you turn auto-update on, so update when a new version is out:
+A new version ships every week (see the [changelog](CHANGELOG.md) and [releases](https://github.com/virajrungta/viaduct/releases)). Third-party plugins don't update on their own unless you turn auto-update on, so update when a new version is out:
 
 ### 1. Refresh the marketplace
 
 ```bash
-claude plugin marketplace update pcb-claude-plugin
+claude plugin marketplace update viaduct
 ```
 
 ### 2. Update the plugin
 
 ```bash
-claude plugin update pcb@pcb-claude-plugin
+claude plugin update viaduct@viaduct
 ```
 
 ### 3. Check the version
@@ -247,13 +251,13 @@ claude plugin list
 
 Then restart Claude Code; the next session tells you which version you're on and links to what's new.
 
-**Inside Claude Code:** `/plugin` → **Installed** → **PCB Design** → **Update now**.
+**Inside Claude Code:** `/plugin` → **Installed** → **Viaduct** → **Update now**.
 <br>**Auto-update:** `/plugin` → **Marketplaces** → **pcb-claude-plugin** → **Enable auto-update**; new versions then download in the background.
 
 ### Uninstall
 
 ```bash
-claude plugin uninstall pcb@pcb-claude-plugin
+claude plugin uninstall viaduct@viaduct
 ```
 
 Your designs and local learning data stay on disk (see below).
@@ -270,28 +274,29 @@ Your designs and local learning data stay on disk (see below).
 
 ## Releases
 
-Every version, newest first (also in [RELEASES.md](RELEASES.md)). Full notes for each are in [CHANGELOG.md](CHANGELOG.md) and on the [releases page](https://github.com/virajrungta/pcb-claude-plugin/releases).
+Every version, newest first (also in [RELEASES.md](RELEASES.md)). Full notes for each are in [CHANGELOG.md](CHANGELOG.md) and on the [releases page](https://github.com/virajrungta/viaduct/releases).
 
 | Version | Date | What's new |
 |---|---|---|
-| [V2.5](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.5) | 2026-11-05 | 4- and 6-layer boards, with the layer count chosen for you. |
-| [V2.4](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.4) | 2026-10-09 | Check a schematic you already have against real designs. |
-| [V2.3](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.3) | 2026-10-05 | Ask questions and get feedback on any design: `/pcb:inquiry`. |
-| [V2.2](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.2) | 2026-10-03 | Board sizing learned from real routed boards. |
-| [V2.1](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.1) | 2026-10-02 | Better placement: layout rules from application notes checked before routing, a layout score against real boards, smarter placement of decoupling, ESD, sensors and regulator parts; builds 3-5x faster; knowledge base grown to 666 open-source projects. |
-| [V2.0](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v2.0) | 2026-10-02 | Windows 10/11 support: same plugin and commands as macOS, only the KiCad and Java install differs. |
-| [V1.11](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.11) | 2026-10-01 | Status bar progress built in: an install option sets up Claude Code's status bar automatically. |
-| [V1.10](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.10) | 2026-10-01 | Readable progress: Claude reports a progress bar in its own messages after each step. |
-| [V1.9](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.9) | 2026-10-01 | Cleaner progress display: a short progress bar, shown only when progress changes; optional status bar. |
-| [V1.8](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.8) | 2026-10-01 | The progress checklist appears as soon as the requirements questions are answered. |
-| [V1.7](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.7) | 2026-10-01 | Progress checklist shown by the plugin itself, so it works on every Claude Code version. |
-| [V1.6](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.6) | 2026-10-01 | Progress checklist with step times, roomier placement on large boards, more preflight checks. |
-| [V1.5](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.5) | 2026-10-01 | Preflight: checks in under a second whether a placed board can route, before spending minutes routing. |
-| [V1.4](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.4) | 2026-09-30 | Prebuilt circuit blocks: verified sub-circuits (USB-C, regulators, ESP32, chargers, LEDs) in one line each. |
-| [V1.3](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.3) | 2026-09-30 | One command for the whole pipeline (`kipcb run`) with a final report: ready or not, where, and what to check. |
-| [V1.2](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.2) | 2026-09-30 | Setup dialog at install: manufacturer, assembly, layer count and learning become your defaults. |
-| [V1.1](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.1) | 2026-09-30 | Faster failures and no more stranded parts when spacing is tight. |
-| [V1.0](https://github.com/virajrungta/pcb-claude-plugin/releases/tag/v1.0) | 2026-09-30 | First release: a plain-English idea to a checked, routed KiCad 9 board and manufacturing files. |
+| [V2.6](https://github.com/virajrungta/viaduct/releases/tag/v2.6) | 2026-11-05 | The plugin is now Viaduct. |
+| [V2.5](https://github.com/virajrungta/viaduct/releases/tag/v2.5) | 2026-11-05 | 4- and 6-layer boards, with the layer count chosen for you. |
+| [V2.4](https://github.com/virajrungta/viaduct/releases/tag/v2.4) | 2026-10-09 | Check a schematic you already have against real designs. |
+| [V2.3](https://github.com/virajrungta/viaduct/releases/tag/v2.3) | 2026-10-05 | Ask questions and get feedback on any design: `/viaduct:inquiry`. |
+| [V2.2](https://github.com/virajrungta/viaduct/releases/tag/v2.2) | 2026-10-03 | Board sizing learned from real routed boards. |
+| [V2.1](https://github.com/virajrungta/viaduct/releases/tag/v2.1) | 2026-10-02 | Better placement: layout rules from application notes checked before routing, a layout score against real boards, smarter placement of decoupling, ESD, sensors and regulator parts; builds 3-5x faster; knowledge base grown to 666 open-source projects. |
+| [V2.0](https://github.com/virajrungta/viaduct/releases/tag/v2.0) | 2026-10-02 | Windows 10/11 support: same plugin and commands as macOS, only the KiCad and Java install differs. |
+| [V1.11](https://github.com/virajrungta/viaduct/releases/tag/v1.11) | 2026-10-01 | Status bar progress built in: an install option sets up Claude Code's status bar automatically. |
+| [V1.10](https://github.com/virajrungta/viaduct/releases/tag/v1.10) | 2026-10-01 | Readable progress: Claude reports a progress bar in its own messages after each step. |
+| [V1.9](https://github.com/virajrungta/viaduct/releases/tag/v1.9) | 2026-10-01 | Cleaner progress display: a short progress bar, shown only when progress changes; optional status bar. |
+| [V1.8](https://github.com/virajrungta/viaduct/releases/tag/v1.8) | 2026-10-01 | The progress checklist appears as soon as the requirements questions are answered. |
+| [V1.7](https://github.com/virajrungta/viaduct/releases/tag/v1.7) | 2026-10-01 | Progress checklist shown by the plugin itself, so it works on every Claude Code version. |
+| [V1.6](https://github.com/virajrungta/viaduct/releases/tag/v1.6) | 2026-10-01 | Progress checklist with step times, roomier placement on large boards, more preflight checks. |
+| [V1.5](https://github.com/virajrungta/viaduct/releases/tag/v1.5) | 2026-10-01 | Preflight: checks in under a second whether a placed board can route, before spending minutes routing. |
+| [V1.4](https://github.com/virajrungta/viaduct/releases/tag/v1.4) | 2026-09-30 | Prebuilt circuit blocks: verified sub-circuits (USB-C, regulators, ESP32, chargers, LEDs) in one line each. |
+| [V1.3](https://github.com/virajrungta/viaduct/releases/tag/v1.3) | 2026-09-30 | One command for the whole pipeline (`kipcb run`) with a final report: ready or not, where, and what to check. |
+| [V1.2](https://github.com/virajrungta/viaduct/releases/tag/v1.2) | 2026-09-30 | Setup dialog at install: manufacturer, assembly, layer count and learning become your defaults. |
+| [V1.1](https://github.com/virajrungta/viaduct/releases/tag/v1.1) | 2026-09-30 | Faster failures and no more stranded parts when spacing is tight. |
+| [V1.0](https://github.com/virajrungta/viaduct/releases/tag/v1.0) | 2026-09-30 | First release: a plain-English idea to a checked, routed KiCad 9 board and manufacturing files. |
 
 ## Examples
 

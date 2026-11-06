@@ -1,14 +1,14 @@
 {
-  "name": "pcb-claude-plugin",
+  "name": "viaduct",
   "owner": {
     "name": "Viraj Rungta"
   },
   "metadata": {
-    "description": "PCB design tools for Claude Code"
+    "description": "Viaduct: PCB design for Claude Code"
   },
   "plugins": [
     {
-      "name": "pcb",
+      "name": "viaduct",
       "source": "./",
       "description": "Idea-to-PCB design with KiCad: schematic, placement, autorouting, checks and fab outputs."
     }
