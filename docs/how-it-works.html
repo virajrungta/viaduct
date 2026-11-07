@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How it works · Viaduct docs</title>
+<meta name="description" content="How it works: Viaduct, PCB design for Claude Code.">
+<meta property="og:title" content="How it works · Viaduct docs">
+<meta property="og:description" content="How it works: Viaduct, PCB design for Claude Code.">
+<meta property="og:image" content="https://virajrungta.github.io/viaduct/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="topbar gutter">
+  <div class="container">
+    <a class="logo" href="../index.html"><img src="../logo.svg" alt="" width="26" height="26">Viaduct</a>
+    <nav class="nav" aria-label="Main"><a href="../index.html#demo">Demo</a><a href="../docs/getting-started.html" aria-current="page">Docs</a><a href="../#examples">Examples</a><a href="../#changelog">Changelog</a><a href="https://github.com/virajrungta/viaduct/releases">Releases</a></nav>
+    <div class="bar-right">
+      <a class="gh-link" href="https://github.com/virajrungta/viaduct"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span class="label">GitHub</span><span class="count">v2.7</span></a>
+      <a class="btn btn-claude btn-sm" href="../index.html#install"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg><span class="long">Install for Claude Code</span><span class="short">Install</span></a>
+    </div>
+  </div>
+</header>
+<main class="gutter"><div class="container docs"><aside class="docs-nav" aria-label="Docs"><h4>Start here</h4><ul><li><a href="getting-started.html">Getting started</a></li><li><a href="how-it-works.html" aria-current="page">How it works</a></li></ul><h4>Reference</h4><ul><li><a href="cli.html">CLI reference</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li></ul></aside><article class="prose"><div class="crumb">Docs / Start here</div><h1>How it works</h1>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;💡 Idea&quot;] --&gt; B[&quot;❓ Requirements&lt;br/&gt;size, power, I/O, build, noise&quot;]
+    B --&gt; C[&quot;🧩 Parts &amp; circuit&lt;br/&gt;datasheets + kipcb ref&quot;]
+    C --&gt; D[&quot;📄 Design spec&lt;br/&gt;JSON&quot;]
+    D --&gt; E[&quot;✅ kipcb check&quot;]
+    E --&gt; F[&quot;🏗️ kipcb build&lt;br/&gt;schematic + placement&quot;]
+    F --&gt; G[&quot;👀 Renders&lt;br/&gt;Claude inspects&quot;]
+    G --&gt;|adjust hints| D
+    G --&gt; P[&quot;🛫 kipcb preflight&lt;br/&gt;can it route?&quot;]
+    P --&gt;|fix| D
+    P --&gt; H[&quot;🔀 kipcb route&lt;br/&gt;autoroute + pours&quot;]
+    H --&gt; I[&quot;🔎 DRC + noise checks&quot;]
+    I --&gt;|fix| D
+    I --&gt; J[&quot;📦 kipcb fab&lt;br/&gt;Gerbers, BOM, CPL&quot;]
+</code></pre>
+<p><code>kipcb run</code> performs the whole right-hand side of this diagram in one command
+(check, build, preflight, route, manufacturing files, report), so a design
+iteration is a single step.</p>
+<p>Claude does the engineering: requirements, part choice, circuit design,
+review and judgement calls. The bundled <code>kipcb</code> tool does the mechanical
+KiCad work. A single JSON <strong>design spec</strong> sits between them and is the source
+of truth; everything else is generated from it.</p>
+<h2 id="the-design-spec">The design spec</h2>
+<p>A small JSON file with the parts (KiCad symbol, footprint, value, LCSC
+number), the nets (<code>"VBUS": ["J1.VBUS", "U1.VI", "C1.1"]</code>), unused pins,
+board size and rules, and optional placement hints. Full reference:
+<a href="https://github.com/virajrungta/viaduct/blob/main/skills/design/references/spec-format.md">spec-format.md</a>. Worked
+examples: <a href="https://github.com/virajrungta/viaduct/tree/main/examples"><code>examples/</code></a>.</p>
+<h2 id="prebuilt-blocks-and-parts">Prebuilt blocks and parts</h2>
+<p>Most boards share the same building blocks: a USB-C input, a 3.3 V
+regulator, an MCU with its reset and boot circuitry, LEDs, buttons, I²C. These
+ship with the plugin as <strong>blocks</strong> (<code>kipcb blocks</code>): verified sub-circuits with
+named ports. A design says <code>{"use": "esp32_c3_wroom02", "connect": {"IO4": "SDA"}}</code>
+and gets the module, its decoupling, the EN and boot circuits and the buttons,
+already wired to the reference design, with spare IOs marked unused. Individual
+parts have short <strong>part names</strong> (<code>R0603</code>, <code>AMS1117-3.3</code>, <code>HEADER_1x04</code>) that fill
+in symbol, footprint and, for common values, an LCSC number. Every block and part
+is tested against KiCad's libraries before each release.</p>
+<p>The part catalog carries JLCPCB part numbers for over 250 resistor and capacitor
+values (the JLCPCB basic library, which has no extra assembly fee; capacitors
+get the highest voltage rating stocked) and for about 80 named parts. <code>kipcb
+lcsc</code> checks live stock and searches JLCPCB's library, and exporting
+manufacturing files warns about out-of-stock parts in the BOM.</p>
+<p>Blocks can drop parts (<code>"omit": ["R1"]</code>, e.g. a bus terminator), and their
+optional bus ports (USB, SWD, reset) join a net of the same name automatically,
+so an <code>swd_header</code> block connects to an RP2040 or STM32 without wiring.</p>
+<p>Parts from boards that reach "ready to order" are remembered locally, so they
+become part names too.</p>
+<h2 id="validation-kipcb-check">Validation (<code>kipcb check</code>)</h2>
+<ul>
+<li>Every symbol and footprint is resolved against your installed KiCad libraries.</li>
+<li>Every <code>REF.PIN</code> reference is resolved against the real symbol. Pins can be
+  referenced by number or by name, and a name connects every pin sharing it
+  (e.g. all GND pins, or hidden stacked USB-C pins).</li>
+<li>Symbol pins are checked against footprint pads, and footprint choices
+  against the symbol's footprint filters.</li>
+<li><strong>Every pin must be on a net or listed in <code>no_connect</code></strong>, so unused pins are
+  a deliberate decision rather than an accident.</li>
+<li>Electrical sanity: single-pin nets, multiple drivers, undriven power inputs.</li>
+<li><strong>Logic levels</strong>: chips on different supply voltages (say 3.3 V and 5 V) that drive the same signal are flagged.</li>
+<li><strong>Power budget</strong>: with <code>current_ma</code> on the main loads, each rail's current is added up, and every linear regulator's heat, (Vin − Vout) × I, is compared with what its package can dissipate.</li>
+</ul>
+<h2 id="schematic-generation">Schematic generation</h2>
+<p>Symbols are grouped by function and packed onto the smallest sheet that
+fits. Each connected pin gets a short wire stub ending in a net label or a
+standard power symbol, and PWR_FLAGs are added where power enters from a
+connector. The result is a clean, ERC-clean schematic that you can tidy by hand
+without changing connectivity.</p>
+<h2 id="placement">Placement</h2>
+<ol>
+<li>Fixed parts, then edge parts. Connectors sit flush to their edge, with the
+   mating side detected from the footprint and turned outward.</li>
+<li>Decoupling capacitors (a <code>near</code> hint on a supply pin) go next, so they
+   claim the spot beside their pin.</li>
+<li>Everything else in connectivity order, each part placed where its pads are
+   closest to connected pads, followed by refinement passes.</li>
+</ol>
+<p>Auto-sized boards start from an estimate (part area, plus what has routed
+before), then shrink to the smallest size where every part still fits at full
+spacing (found by search, so spacing is never reduced), never below the room needed for routing or a size that failed before,
+and never fuller than most similar real routed boards (the most similar boards
+in the knowledge base by pads, parts, connections and fine-pitch share). If a
+shrunk board still doesn't route completely, <code>kipcb run</code> rebuilds it a step
+larger and routes again, and remembers the failure for similar boards.</p>
+<p>Placement uses each footprint's real courtyard shape (a module's wide antenna
+section doesn't block the pins beside it), spacing presets with extra
+fan-out room around ICs, and <code>away_from</code> to separate noisy and sensitive parts
+(<code>{"away_from": ["L1", "U5"], "min_dist": 8}</code>, or per part:
+<code>{"away_from": {"L1": 15, "U5": 10}}</code>).</p>
+<p>Some placement knowledge applies without being asked:</p>
+<ul>
+<li>A <code>near</code> hint on a part (not a pin) aims at the pads the two parts share: an
+  ESD array <code>near</code> a USB connector sits at the data pins, not beside the
+  middle of the receptacle.</li>
+<li>Temperature and humidity sensors keep 15 mm from regulators and inductors
+  and 10 mm from MCUs and modules. Crystals keep away from switching inductors.</li>
+<li>Switching-regulator inductors and decoupling capacitors claim their spot
+  before pull-ups and other helpers.</li>
+<li>Resistors and capacitors are turned to one orientation where it costs
+  nothing (easier assembly and inspection; most real boards do this).</li>
+</ul>
+<h2 id="placement-spacing">Placement spacing</h2>
+<p>On a board with spare room, kipcb widens the gaps between parts until the
+layout covers about 45% of the board, instead of packing everything into one
+corner, because crowded clusters are what fail to route. Parts pinned next to a pin
+(decoupling and crystal capacitors) keep their tight spacing; fine-pitch
+chips get the most extra room. Auto-sizing stops shrinking a board before it
+gets denser than most real boards that routed completely at that layer count
+(knowledge base).</p>
+<h2 id="preflight">Preflight</h2>
+<p>Routing takes minutes; most reasons it fails can be seen in milliseconds on
+the placed board. <code>kipcb preflight</code> (run automatically before routing) checks:</p>
+<ul>
+<li><strong>Pad reach</strong>: the widest track that can reach a pad without breaking
+  clearance to its neighbour follows from the pad pitch. A 0.25 mm track
+  can't reach a 0.4 mm-pitch QFN pin at 0.2 mm clearance, so nets on
+  fine-pitch chips automatically get a netclass with the track width and
+  clearance real boards use at that pitch (from the knowledge base, e.g.
+  0.2 mm / 0.15 mm at 0.4 mm pitch); preflight verifies every pad is reachable.</li>
+<li><strong>Netclasses</strong>: each net has exactly one class (KiCad otherwise merges
+  them, usually with the wrong width).</li>
+<li><strong>Manufacturer limits</strong>: track, clearance, via, drill and edge clearance
+  against the chosen manufacturer's standard capabilities.</li>
+<li><strong>Edge, overlaps, placement</strong>: pads too near the edge, overlapping parts,
+  parts off the board, decoupling and crystal parts too far from their pins.</li>
+<li><strong>Escape room</strong>: sides of fine-pitch chips crowded by neighbours while
+  several pins still have to route out that way.</li>
+<li><strong>Crowding</strong>: one area packed far denser than the board as a whole.</li>
+<li><strong>Density</strong>: connections per cm² compared with real routed boards and with
+  how your own boards of similar density routed.</li>
+<li><strong>Layout rules</strong>: placement guidance from manufacturer application notes,
+  checked on the placed board: USB ESD protection at the connector, crystal
+  load capacitors close and symmetric, buck input loop, bootstrap and
+  feedback parts tight, temperature sensors away from heat, RF modules at the
+  edge, support parts next to the part they serve, nothing in a mounting
+  hole's screw-head area. Each finding names the rule, its source and the fix.</li>
+<li><strong>Layout score</strong> (informational): how typical the layout is of real routed
+  boards with the same layer count, for crowding, R/C orientation, connector
+  distance to the edge and decoupling distance.</li>
+</ul>
+<p>A failure stops the run before routing, with the fix.</p>
+<h2 id="routing">Routing</h2>
+<p>Freerouting autoroutes from a Specctra DSN export. Its runs are randomized and
+behave in two ways: most finish a board completely within seconds, a few wander
+for minutes and still leave connections. So kipcb runs short attempts (20 s
+each, cycling through strategies), one at a time (two at once interfere and
+both slow down), stops at the first complete route, lengthens the attempts
+only if short ones keep failing, and gives up early when a whole round brings no
+improvement. Each attempt is scored by KiCad's own connectivity check; a
+completion pass then tries to finish anything left.</p>
+<p>Fine-pitch chips get <strong>fan-out</strong> first, the way a person would start: a
+bridge between neighbouring pins on the same net and a short locked stub from
+every other used pin out past the pad row, so the router starts from easy
+stub ends. The
+early strategies keep signals off the bottom layer so it stays an unbroken
+ground plane. Ground is then poured on both layers and stitched with vias.
+Stacked duplicate pads (like USB-C's paired VBUS pins) are hidden from the
+router so they don't cause failures, and the outline the router sees is
+shrunk by the copper-to-edge rule so no track ends up too close to the edge.</p>
+<p><strong>More than 2 layers.</strong> With <code>"layers": "auto"</code> (the default) kipcb picks the
+layer count before building: 4 for a BGA or a high-speed interface, or when
+more than 60% of the 30 most similar real routed boards use 4+ layers (on 844
+real boards that rule matches the designer's own choice 82% of the time),
+otherwise 2. On 4 and 6 layers the inner GND and power layers are solid
+planes the router never runs tracks on; kipcb gives every SMD pad on a plane
+net a short locked stub and via into its plane before routing, since the
+autorouter won't connect pads to planes itself.</p>
+<h2 id="checks">Checks</h2>
+<ul>
+<li><strong>ERC / DRC</strong> via KiCad, including schematic ↔ board parity.</li>
+<li><strong>Noise checks</strong> (<code>kipcb noise</code>): decoupling distance per supply pin, ground
+  plane coverage and fragmentation, signal length on the bottom layer, via
+  stitching density, length, vias and edge clearance of noisy nets (clocks,
+  switch nodes, PWM, USB), crosstalk between sensitive and noisy traces, crystal
+  layout, switching-regulator loops, differential-pair matching and supply track
+  width. Criteria are in
+  <a href="https://github.com/virajrungta/viaduct/blob/main/skills/design/references/layout-guidelines.md">layout-guidelines.md</a>.</li>
+</ul>
+<h2 id="learning">Learning</h2>
+<p><strong>From your own runs</strong> (<code>kipcb learn</code>): each build and routing attempt is
+appended to <code>experience.jsonl</code> in kipcb's data folder (<code>~/.local/share/kipcb</code> on
+macOS, <code>%LOCALAPPDATA%\kipcb</code> on Windows). When routing a new
+board, strategies are ranked by how they performed on past boards of similar
+pad density (a contextual bandit with an exploration bonus). The first run on
+a new kind of board uses the hand-tuned defaults; later runs start with what
+worked. Auto-sized boards use the tightest area per pad that has reliably
+routed, and footprints that caused unrouted connections get extra clearance.
+Preflight results and each board's routing density are logged too, so the
+density check learns how dense a board you can route at each layer count.
+Runs that followed a broken placement (a part left off the board) are
+ignored, so one bad run can't teach the wrong lesson. <code>kipcb learn reset</code>
+clears everything, and <code>KIPCB_LEARN=0</code> turns logging off.</p>
+<p><strong>From open-source designs</strong> (<code>kipcb ref &lt;part&gt;</code>): the companion
+<a href="https://github.com/virajrungta/pcb-knowledge">pcb-knowledge</a> project mines
+openly licensed KiCad projects on GitHub into statistics: how real designs
+wire each chip's pins, layout distributions from hundreds of routed boards,
+the track widths and clearances designers use at each pin pitch, and the
+routing density real 2- and 4-layer boards reach. kipcb uses the pitch rules
+when it sets up netclasses and the density figures in preflight. Only aggregate statistics are kept, with attribution. A copy ships
+with the plugin, so <code>kipcb ref</code> works out of the box. Claude consults it during
+part selection and review; the datasheet always wins.</p>
+<p>Nothing is uploaded anywhere. Learning stays on your machine.</p>
+<h2 id="limits">Limits</h2>
+<p>Autorouted boards are functional, not optimal. Switching-regulator layout,
+RF, controlled-impedance and high-speed signals (USB 480 Mb/s, Ethernet,
+DDR) need human review or hand routing. The plugin flags these instead of
+hiding them. Always review a design before ordering.</p><nav class="pager" aria-label="Pages"><a href="getting-started.html"><small>Previous</small><span>Getting started</span></a><a class="next" href="cli.html"><small>Next</small><span>CLI reference</span></a></nav></article><aside class="toc"><h4>On this page</h4><ul><li><a href="#the-design-spec">The design spec</a></li><li><a href="#prebuilt-blocks-and-parts">Prebuilt blocks and parts</a></li><li><a href="#validation-kipcb-check">Validation (kipcb check)</a></li><li><a href="#schematic-generation">Schematic generation</a></li><li><a href="#placement">Placement</a></li><li><a href="#placement-spacing">Placement spacing</a></li><li><a href="#preflight">Preflight</a></li><li><a href="#routing">Routing</a></li><li><a href="#checks">Checks</a></li><li><a href="#learning">Learning</a></li><li><a href="#limits">Limits</a></li></ul></aside></div></main><footer class="footer gutter">
+  <div class="container">
+    <div>
+      <a class="logo" href="../index.html"><img src="../logo.svg" alt="" width="26" height="26">Viaduct</a>
+      <p class="fine">PCB design for Claude Code. Open source under the MIT license. Viaduct is an independent project, not made by Anthropic or KiCad.</p>
+    </div>
+    <div><h4>Product</h4><ul>
+      <li><a href="../index.html#examples">Example boards</a></li>
+      <li><a href="../index.html#install">Install</a></li>
+      <li><a href="../index.html#changelog">Changelog</a></li></ul></div>
+    <div><h4>Docs</h4><ul>
+      <li><a href="../docs/getting-started.html">Getting started</a></li>
+      <li><a href="../docs/how-it-works.html">How it works</a></li>
+      <li><a href="../docs/cli.html">CLI reference</a></li>
+      <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li></ul></div>
+    <div><h4>Project</h4><ul>
+      <li><a href="https://github.com/virajrungta/viaduct">GitHub</a></li>
+      <li><a href="https://github.com/virajrungta/viaduct/releases">Releases</a></li>
+      <li><a href="https://github.com/virajrungta/viaduct/issues">Report an issue</a></li></ul></div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll(".copy button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var el = document.getElementById(b.dataset.for);
+    function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1400); }
+    function sel() { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected"; }
+    try { navigator.clipboard.writeText(el.textContent).then(done, sel); } catch (e) { sel(); }
+  });
+});
+(function () {
+  var g = document.getElementById("gallery"); if (!g) return;
+  var prev = document.getElementById("g-prev"), next = document.getElementById("g-next");
+  function step() { var c = g.querySelector(".card"); return c ? c.getBoundingClientRect().width + 18 : 400; }
+  function sync() { prev.disabled = g.scrollLeft < 8; next.disabled = g.scrollLeft + g.clientWidth > g.scrollWidth - 8; }
+  prev.addEventListener("click", function () { g.scrollBy({ left: -step() }); });
+  next.addEventListener("click", function () { g.scrollBy({ left: step() }); });
+  g.addEventListener("scroll", sync, { passive: true }); window.addEventListener("resize", sync); sync();
+})();
+</script>
+</body>
+</html>

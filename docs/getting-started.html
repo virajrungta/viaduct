@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Getting started · Viaduct docs</title>
+<meta name="description" content="Getting started: Viaduct, PCB design for Claude Code.">
+<meta property="og:title" content="Getting started · Viaduct docs">
+<meta property="og:description" content="Getting started: Viaduct, PCB design for Claude Code.">
+<meta property="og:image" content="https://virajrungta.github.io/viaduct/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="topbar gutter">
+  <div class="container">
+    <a class="logo" href="../index.html"><img src="../logo.svg" alt="" width="26" height="26">Viaduct</a>
+    <nav class="nav" aria-label="Main"><a href="../index.html#demo">Demo</a><a href="../docs/getting-started.html" aria-current="page">Docs</a><a href="../#examples">Examples</a><a href="../#changelog">Changelog</a><a href="https://github.com/virajrungta/viaduct/releases">Releases</a></nav>
+    <div class="bar-right">
+      <a class="gh-link" href="https://github.com/virajrungta/viaduct"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span class="label">GitHub</span><span class="count">v2.7</span></a>
+      <a class="btn btn-claude btn-sm" href="../index.html#install"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg><span class="long">Install for Claude Code</span><span class="short">Install</span></a>
+    </div>
+  </div>
+</header>
+<main class="gutter"><div class="container docs"><aside class="docs-nav" aria-label="Docs"><h4>Start here</h4><ul><li><a href="getting-started.html" aria-current="page">Getting started</a></li><li><a href="how-it-works.html">How it works</a></li></ul><h4>Reference</h4><ul><li><a href="cli.html">CLI reference</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li></ul></aside><article class="prose"><div class="crumb">Docs / Start here</div><h1>Getting started</h1>
+<p>This guide takes you from nothing installed to a board ready to order.</p>
+<h2 id="1-install-the-tools">1. Install the tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Why</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Claude Code</strong></td>
+<td>Runs the plugin</td>
+<td><a href="https://claude.com/claude-code">claude.com/claude-code</a>: the desktop app, terminal CLI or IDE extension</td>
+</tr>
+<tr>
+<td><strong>KiCad 9</strong></td>
+<td>Schematics, boards, checks, exports</td>
+<td>macOS: <code>brew install --cask kicad</code>. Windows: <code>winget install KiCad.KiCad</code>. Or <a href="https://www.kicad.org/download/">kicad.org/download</a>. The default install location is fine</td>
+</tr>
+<tr>
+<td><strong>Java 21+</strong></td>
+<td>Runs the Freerouting autorouter</td>
+<td>macOS: <code>brew install --cask temurin</code>. Windows: <code>winget install EclipseAdoptium.Temurin.21.JDK</code>. Linux: your package manager (<code>openjdk-21-jre</code>)</td>
+</tr>
+<tr>
+<td><strong>Git for Windows</strong> (Windows only)</td>
+<td>Claude Code runs commands in Git Bash</td>
+<td><code>winget install Git.Git</code></td>
+</tr>
+</tbody>
+</table>
+<p>macOS, Windows 10/11 and Linux are supported, and everything after this step
+is identical on all of them. The plugin runs on KiCad's bundled Python, so
+nothing else is needed. On Linux, install KiCad from the official PPA or
+Flatpak so that <code>python3 -c "import pcbnew"</code> works.</p>
+<h2 id="2-install-the-plugin">2. Install the plugin</h2>
+<p>In Claude Code, run:</p>
+<pre><code class="language-text">/plugin install pcb --marketplace virajrungta/viaduct
+</code></pre>
+<p>Confirm the marketplace and choose <strong>Install for you</strong>. A setup form asks for
+your usual manufacturer, how boards get built (assembled or hand-soldered),
+your default layer count, and whether kipcb may learn from your boards
+(locally). Change these later with <code>/plugin configure viaduct@viaduct</code>.</p>
+<p>Turn on auto-update so weekly versions arrive automatically: <code>/plugin</code> →
+<strong>Marketplaces</strong> → <strong>pcb-claude-plugin</strong> → <strong>Enable auto-update</strong>.</p>
+<p>Start a new session. The plugin welcomes you and checks your toolchain.</p>
+<h2 id="3-check-the-toolchain">3. Check the toolchain</h2>
+<p>In a Claude Code session, ask Claude to <em>"run kipcb doctor"</em> (<code>kipcb</code> is
+available inside Claude Code sessions). You should see KiCad, <code>pcbnew</code> and
+Java reported as OK. If Freerouting shows as not installed, ask Claude to run
+<code>kipcb setup-router</code>: it downloads the Freerouting autorouter (~65 MB) from its
+official GitHub releases into kipcb's cache folder (<code>~/.cache/kipcb</code> on macOS,
+<code>%LOCALAPPDATA%\kipcb\cache</code> on Windows). When you use <code>/viaduct:design</code>, Claude
+asks before downloading it.</p>
+<h2 id="4-design-a-board">4. Design a board</h2>
+<p>In Claude Code, from the folder where you want the project:</p>
+<pre><code>/viaduct:design a USB-C powered ESP32-C3 board with an RGB status LED, reset and boot buttons, and a 4-pin I2C header
+</code></pre>
+<p>What happens next:</p>
+<ol>
+<li><strong>Questions.</strong> Claude asks a few quick questions: board size, power source
+   and current, which connectors go on which edges, assembly vs hand
+   soldering, and whether anything is noise-sensitive. Answer what you know;
+   sensible defaults cover the rest.</li>
+<li><strong>Architecture and parts.</strong> Claude proposes a block diagram and power tree,
+   then picks real parts from KiCad's libraries, checking every pin and following
+   each chip's datasheet reference circuit.</li>
+<li><strong>Spec and validation.</strong> The circuit is written as a JSON design spec in
+   <code>hardware/&lt;name&gt;.json</code> and validated. Every pin must be connected or
+   explicitly marked unused.</li>
+<li><strong>Build and inspect.</strong> The schematic and a placed board are generated,
+   checked, and rendered. Claude looks at the renders and adjusts placement.</li>
+<li><strong>Route.</strong> The board is autorouted, ground planes are poured, and DRC plus
+   the noise checks run until clean.</li>
+<li><strong>Manufacturing files.</strong> Gerbers, BOM and pick-and-place files land in
+   <code>hardware/&lt;name&gt;/fab/</code>.</li>
+</ol>
+<p>Claude finishes with the run report: whether the board is ready to order, <strong>where
+the project is</strong>, board size and layers, which checks passed, the
+manufacturing files, and anything that deserves a human look, plus the
+assumptions it made. The same summary is saved in <code>reports/REPORT.md</code> inside the
+project, and <code>kipcb report &lt;project&gt;</code> prints it again any time.</p>
+<pre><code>hardware/&lt;name&gt;/
+  &lt;name&gt;.kicad_pro / .kicad_sch / .kicad_pcb   open in KiCad
+  fab/        Gerber zip, BOM, pick-and-place: send these to the manufacturer
+  previews/   board and schematic images, printable PDFs
+  reports/    REPORT.md and the check results
+</code></pre>
+<h2 id="5-open-it-in-kicad">5. Open it in KiCad</h2>
+<pre><code class="language-bash">open hardware/&lt;name&gt;/&lt;name&gt;.kicad_pro
+</code></pre>
+<p>(<code>xdg-open</code> on Linux.) It's a normal KiCad project: edit the schematic, nudge
+parts, or hand-route critical nets.</p>
+<blockquote>
+<p><strong>Spec vs hand edits.</strong> Claude edits the JSON spec and rebuilds, and a
+rebuild regenerates the KiCad files. Iterate with Claude first, then switch
+to KiCad for final polish. After that, <code>/viaduct:review</code> and <code>/viaduct:fab</code> work
+directly on your edited files.</p>
+</blockquote>
+<h2 id="6-order-boards">6. Order boards</h2>
+<pre><code>/viaduct:fab hardware/&lt;name&gt;
+</code></pre>
+<p>Upload <code>fab/&lt;name&gt;-gerbers.zip</code> to your fab (JLCPCB, PCBWay, OSH Park…). For
+assembly, also upload <code>fab/&lt;name&gt;-bom.csv</code> and <code>fab/&lt;name&gt;-cpl.csv</code>, and check
+part rotations in the fab's preview. Claude never places orders for you.</p>
+<h2 id="questions-and-feedback">Questions and feedback</h2>
+<pre><code>/viaduct:inquiry what pull-ups do I need for I2C at 400 kHz?
+/viaduct:inquiry path/to/my_board/
+</code></pre>
+<p>Ask anything about circuits, parts, layout or manufacturing, or point it at a
+design (a KiCad project, a spec, a schematic image or PDF, a Gerber zip) for
+quick feedback. Boards are compared with real routed open-source designs.</p>
+<h2 id="try-the-examples-first">Try the examples first</h2>
+<pre><code class="language-bash">git clone https://github.com/virajrungta/viaduct
+</code></pre>
+<pre><code class="language-bash">cd viaduct &amp;&amp; bin/kipcb run examples/usb_blinker.json
+</code></pre>
+<p>Then open <code>examples/usb_blinker/usb_blinker.kicad_pro</code> in KiCad.</p><nav class="pager" aria-label="Pages"><span></span><a class="next" href="how-it-works.html"><small>Next</small><span>How it works</span></a></nav></article><aside class="toc"><h4>On this page</h4><ul><li><a href="#1-install-the-tools">1. Install the tools</a></li><li><a href="#2-install-the-plugin">2. Install the plugin</a></li><li><a href="#3-check-the-toolchain">3. Check the toolchain</a></li><li><a href="#4-design-a-board">4. Design a board</a></li><li><a href="#5-open-it-in-kicad">5. Open it in KiCad</a></li><li><a href="#6-order-boards">6. Order boards</a></li><li><a href="#questions-and-feedback">Questions and feedback</a></li><li><a href="#try-the-examples-first">Try the examples first</a></li></ul></aside></div></main><footer class="footer gutter">
+  <div class="container">
+    <div>
+      <a class="logo" href="../index.html"><img src="../logo.svg" alt="" width="26" height="26">Viaduct</a>
+      <p class="fine">PCB design for Claude Code. Open source under the MIT license. Viaduct is an independent project, not made by Anthropic or KiCad.</p>
+    </div>
+    <div><h4>Product</h4><ul>
+      <li><a href="../index.html#examples">Example boards</a></li>
+      <li><a href="../index.html#install">Install</a></li>
+      <li><a href="../index.html#changelog">Changelog</a></li></ul></div>
+    <div><h4>Docs</h4><ul>
+      <li><a href="../docs/getting-started.html">Getting started</a></li>
+      <li><a href="../docs/how-it-works.html">How it works</a></li>
+      <li><a href="../docs/cli.html">CLI reference</a></li>
+      <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li></ul></div>
+    <div><h4>Project</h4><ul>
+      <li><a href="https://github.com/virajrungta/viaduct">GitHub</a></li>
+      <li><a href="https://github.com/virajrungta/viaduct/releases">Releases</a></li>
+      <li><a href="https://github.com/virajrungta/viaduct/issues">Report an issue</a></li></ul></div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll(".copy button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var el = document.getElementById(b.dataset.for);
+    function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1400); }
+    function sel() { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected"; }
+    try { navigator.clipboard.writeText(el.textContent).then(done, sel); } catch (e) { sel(); }
+  });
+});
+(function () {
+  var g = document.getElementById("gallery"); if (!g) return;
+  var prev = document.getElementById("g-prev"), next = document.getElementById("g-next");
+  function step() { var c = g.querySelector(".card"); return c ? c.getBoundingClientRect().width + 18 : 400; }
+  function sync() { prev.disabled = g.scrollLeft < 8; next.disabled = g.scrollLeft + g.clientWidth > g.scrollWidth - 8; }
+  prev.addEventListener("click", function () { g.scrollBy({ left: -step() }); });
+  next.addEventListener("click", function () { g.scrollBy({ left: step() }); });
+  g.addEventListener("scroll", sync, { passive: true }); window.addEventListener("resize", sync); sync();
+})();
+</script>
+</body>
+</html>

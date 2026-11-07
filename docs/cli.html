@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CLI reference · Viaduct docs</title>
+<meta name="description" content="CLI reference: Viaduct, PCB design for Claude Code.">
+<meta property="og:title" content="CLI reference · Viaduct docs">
+<meta property="og:description" content="CLI reference: Viaduct, PCB design for Claude Code.">
+<meta property="og:image" content="https://virajrungta.github.io/viaduct/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="topbar gutter">
+  <div class="container">
+    <a class="logo" href="../index.html"><img src="../logo.svg" alt="" width="26" height="26">Viaduct</a>
+    <nav class="nav" aria-label="Main"><a href="../index.html#demo">Demo</a><a href="../docs/getting-started.html" aria-current="page">Docs</a><a href="../#examples">Examples</a><a href="../#changelog">Changelog</a><a href="https://github.com/virajrungta/viaduct/releases">Releases</a></nav>
+    <div class="bar-right">
+      <a class="gh-link" href="https://github.com/virajrungta/viaduct"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span class="label">GitHub</span><span class="count">v2.7</span></a>
+      <a class="btn btn-claude btn-sm" href="../index.html#install"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg><span class="long">Install for Claude Code</span><span class="short">Install</span></a>
+    </div>
+  </div>
+</header>
+<main class="gutter"><div class="container docs"><aside class="docs-nav" aria-label="Docs"><h4>Start here</h4><ul><li><a href="getting-started.html">Getting started</a></li><li><a href="how-it-works.html">How it works</a></li></ul><h4>Reference</h4><ul><li><a href="cli.html" aria-current="page">CLI reference</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li></ul></aside><article class="prose"><div class="crumb">Docs / Reference</div><h1>CLI reference</h1>
+<p><code>kipcb</code> is on your PATH whenever the plugin is enabled (it lives in <code>bin/</code>).
+It runs under KiCad's bundled Python so it can use <code>pcbnew</code>. Claude runs
+these commands for you, but they also work on their own.</p>
+<h2 id="setup">Setup</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kipcb doctor</code></td>
+<td>Checks KiCad, <code>pcbnew</code>, Java and Freerouting, plus the knowledge base and learning status</td>
+</tr>
+<tr>
+<td><code>kipcb setup-router [--version X]</code></td>
+<td>Downloads Freerouting into kipcb's cache folder (picks the newest version your Java can run)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="parts">Parts</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kipcb sym-search &lt;words&gt;</code></td>
+<td>Searches symbol libraries; shows pin count and default footprint</td>
+</tr>
+<tr>
+<td><code>kipcb sym-info Lib:Name</code></td>
+<td>Lists every pin (number, name, electrical type, unit)</td>
+</tr>
+<tr>
+<td><code>kipcb fp-search &lt;words&gt;</code></td>
+<td>Searches footprint libraries</td>
+</tr>
+<tr>
+<td><code>kipcb fp-info Lib:Name</code></td>
+<td>Shows a footprint's pads and courtyard size</td>
+</tr>
+<tr>
+<td><code>kipcb sym-search "a \| b \| c"</code></td>
+<td>Several searches in one call (8 results for one query, 5 each for several)</td>
+</tr>
+<tr>
+<td><code>kipcb sym-info A B C</code></td>
+<td>Compact pins of several symbols in one call (<code>-v</code> adds the datasheet URL)</td>
+</tr>
+<tr>
+<td><code>kipcb guide [topic]</code></td>
+<td>Prints one section of the design references (USB-C, LDO, decoupling, placement hints…); no topic lists them</td>
+</tr>
+<tr>
+<td><code>kipcb fmt spec.json</code></td>
+<td>Rewrites a spec in the compact one-line-per-part layout</td>
+</tr>
+<tr>
+<td><code>kipcb blocks [names or words]</code></td>
+<td>Prebuilt circuit blocks (43). Block names show ports, optional ports, parameters and parts; other words filter the list (<code>kipcb blocks i2c</code>)</td>
+</tr>
+<tr>
+<td><code>kipcb parts [query]</code></td>
+<td>Prebuilt part names for <code>"part": "…"</code> (symbol, footprint, JLCPCB part number), plus parts remembered from your boards</td>
+</tr>
+<tr>
+<td><code>kipcb lcsc C25804 …</code></td>
+<td>Live JLCPCB data for part numbers: part, package, basic/extended, stock, price</td>
+</tr>
+<tr>
+<td><code>kipcb lcsc -s "SHT31 \| 10uF 0805" [--basic]</code></td>
+<td>Searches JLCPCB's parts library, in-stock and basic parts first</td>
+</tr>
+<tr>
+<td><code>kipcb ref &lt;part&gt;</code></td>
+<td>Shows how open-source designs wire a part (uses the knowledge base shipped with the plugin)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="design">Design</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kipcb run spec.json [--no-fab] [--force]</code></td>
+<td><strong>The whole pipeline</strong>: check → build → preflight → route → manufacturing files → report, with one progress line per step. An unchanged spec returns the last report instantly</td>
+</tr>
+<tr>
+<td><code>kipcb run spec.json --until build\|preflight\|route</code> / <code>--resume</code></td>
+<td>The same pipeline in stages: stop after a stage, then continue where it left off. Each stage ends with a <code>checkpoint:</code> line; Claude ticks its progress checklist between stages</td>
+</tr>
+<tr>
+<td><code>kipcb progress</code></td>
+<td>The current design's progress checklist (the same one shown in Claude Code after each step)</td>
+</tr>
+<tr>
+<td><code>kipcb estimate spec.json [--no-fab]</code></td>
+<td>Approximate time for each step of <code>kipcb run</code> on this design, with the reason when a step is long (e.g. fine-pitch chips); learns from your own run times</td>
+</tr>
+<tr>
+<td><code>kipcb preflight spec.json</code></td>
+<td>Checks in under a second whether a built board can route cleanly: pad reach at each pin pitch, one netclass per net, manufacturer limits, copper near the edge, overlaps, decoupling and crystal placement, escape room around fine-pitch chips, routing density. <code>run</code> stops before routing if any of these fail</td>
+</tr>
+<tr>
+<td><code>kipcb check spec.json</code></td>
+<td>Validates the spec: symbols, footprints, pins, nets, unused pins, logic levels, and the power budget / regulator heat</td>
+</tr>
+<tr>
+<td><code>kipcb build spec.json [-o DIR] [--no-render]</code></td>
+<td>Generates the schematic and placed board, runs ERC, the placement DRC and placement noise checks, and renders previews</td>
+</tr>
+<tr>
+<td><code>kipcb route &lt;project&gt; [--attempts N] [--timeout S] [--no-pour]</code></td>
+<td>Autoroutes, pours ground, adds stitching vias, then runs DRC and noise checks</td>
+</tr>
+<tr>
+<td><code>kipcb fab &lt;project&gt; [--fab jlcpcb\|generic] [--force]</code></td>
+<td>Exports Gerbers and drill zip, BOM, CPL and a STEP 3D model (for enclosure design). Refuses while DRC has errors</td>
+</tr>
+<tr>
+<td><code>kipcb cost &lt;project&gt;</code></td>
+<td>Rough JLCPCB cost for 5, 10 and 100 boards: bare boards, Economic PCBA assembly and parts (live prices), with the priciest parts and extended-part fees. Estimates; the live quote is the real price</td>
+</tr>
+</tbody>
+</table>
+<p><code>&lt;project&gt;</code> can be the project folder, the <code>.kicad_pro</code> / <code>.kicad_pcb</code>, or the spec <code>.json</code>.</p>
+<h2 id="checks-and-inspection">Checks and inspection</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kipcb erc &lt;project&gt;</code></td>
+<td>Schematic electrical rules check</td>
+</tr>
+<tr>
+<td><code>kipcb drc &lt;project&gt;</code></td>
+<td>Board design rules check, including schematic parity</td>
+</tr>
+<tr>
+<td><code>kipcb noise &lt;project&gt; [-q]</code></td>
+<td>Noise / signal-integrity checks (<code>-q</code> shows problems only)</td>
+</tr>
+<tr>
+<td><code>kipcb inspect &lt;project or .kicad_sch&gt; [--schematic-only\|--board-only] [--json]</code></td>
+<td>Compares a KiCad project, hand-drawn or generated, with real open-source designs. <strong>Schematic</strong>: each chip's pins against how real designs wire them (decoupling caps and pull-ups most designs have, pins left open that designs connect, unusual values); WARN needs strong agreement across 8+ designs, weaker hints are notes. <strong>Board</strong>: how full it is against the most similar routed boards, the layout score, and how close crystals, ESD arrays, inductors and bootstrap capacitors sit. Two-sided boards are compared per side</td>
+</tr>
+<tr>
+<td><code>kipcb netlist &lt;project&gt;</code></td>
+<td>Components and nets with pin functions, for review</td>
+</tr>
+<tr>
+<td><code>kipcb render &lt;project&gt; [--what build\|review\|full]</code></td>
+<td>Previews into <code>previews/</code>: <code>review.png</code> (board, top), <code>schematic.png/.pdf</code>; <code>full</code> adds <code>bottom.png</code> and <code>board.pdf</code></td>
+</tr>
+<tr>
+<td><code>kipcb report &lt;project&gt;</code></td>
+<td>Prints the summary (status, project location, board, checks, files, what to check); also in <code>reports/REPORT.md</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="learning">Learning</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kipcb settings</code></td>
+<td>Your defaults from the install dialog</td>
+</tr>
+<tr>
+<td><code>kipcb learn</code></td>
+<td>What has been learned: strategy success rates, hard footprints, sizing, and how many runs were ignored</td>
+</tr>
+<tr>
+<td><code>kipcb learn reset</code></td>
+<td>Forget all local experience</td>
+</tr>
+</tbody>
+</table>
+<h2 id="output-layout">Output layout</h2>
+<pre><code>my_board.json              design spec (source of truth)
+my_board/
+  my_board.kicad_pro/.kicad_sch/.kicad_pcb    the KiCad project
+  fab/        &lt;name&gt;-gerbers.zip, &lt;name&gt;-bom.csv, &lt;name&gt;-cpl.csv, &lt;name&gt;.step, gerbers/
+  previews/   review.png, schematic.png/.pdf, bottom.png, board.pdf
+  reports/    REPORT.md, erc/drc/noise/placement/build/route/fab/cost .json
+  .kipcb/     router working files and logs (safe to delete)
+</code></pre>
+<h2 id="environment-variables">Environment variables</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KIPCB_PYTHON</code></td>
+<td>Python with <code>pcbnew</code> (if KiCad isn't in the default location)</td>
+</tr>
+<tr>
+<td><code>KIPCB_KICAD_CLI</code></td>
+<td>Path to <code>kicad-cli</code></td>
+</tr>
+<tr>
+<td><code>KIPCB_FREEROUTING_JAR</code></td>
+<td>Use a specific Freerouting jar</td>
+</tr>
+<tr>
+<td><code>KIPCB_KNOWLEDGE</code></td>
+<td>Path to a <code>knowledge.json</code> (default: <code>knowledge.json</code> in the data folder if you built one, else the copy in the plugin's <code>data/</code>)</td>
+</tr>
+<tr>
+<td><code>KIPCB_EXPERIENCE</code></td>
+<td>Path to the experience log</td>
+</tr>
+<tr>
+<td><code>KIPCB_LEARN=0</code></td>
+<td>Disable learning</td>
+</tr>
+<tr>
+<td><code>KIPCB_CACHE</code></td>
+<td>Library index and Freerouting cache (default <code>~/.cache/kipcb</code>; Windows <code>%LOCALAPPDATA%\kipcb\cache</code>)</td>
+</tr>
+<tr>
+<td><code>KIPCB_KICAD_ROOT</code></td>
+<td>Windows: KiCad's install folder, if not <code>C:\Program Files\KiCad\9.0</code></td>
+</tr>
+<tr>
+<td><code>KIPCB_ATTEMPT_SECONDS</code></td>
+<td>Time cap for the first routing attempt, in seconds (default 20; later attempts get longer)</td>
+</tr>
+<tr>
+<td><code>KIPCB_ROUTE_PARALLEL</code></td>
+<td>Routing attempts to run at once (default 1: parallel Freerouting processes slow each other down)</td>
+</tr>
+<tr>
+<td><code>KIPCB_CLI_TIMEOUT</code></td>
+<td>Seconds before a <code>kicad-cli</code> call is abandoned (default 300)</td>
+</tr>
+<tr>
+<td><code>KIPCB_CLI_NO_MIRROR</code></td>
+<td>Windows: run <code>kicad-cli</code> on the project in place instead of on a temporary copy</td>
+</tr>
+<tr>
+<td><code>KIPCB_BROWSER</code></td>
+<td>Chromium-based browser used to render previews when no PDF rasterizer is available (default: Edge or Chrome)</td>
+</tr>
+<tr>
+<td><code>KIPCB_FORCE_SVG_RASTER</code></td>
+<td>Render previews through the browser even when a PDF rasterizer exists</td>
+</tr>
+<tr>
+<td><code>KIPCB_OFFLINE=1</code></td>
+<td>Skip the online JLCPCB stock check when exporting</td>
+</tr>
+<tr>
+<td><code>KIPCB_DEBUG=1</code></td>
+<td>Show the full Python traceback instead of a one-line error</td>
+</tr>
+<tr>
+<td><code>XDG_DATA_HOME</code></td>
+<td>Data folder base (default <code>~/.local/share</code>; Windows <code>%LOCALAPPDATA%</code>) for settings, learning and progress</td>
+</tr>
+</tbody>
+</table><nav class="pager" aria-label="Pages"><a href="how-it-works.html"><small>Previous</small><span>How it works</span></a><a class="next" href="troubleshooting.html"><small>Next</small><span>Troubleshooting</span></a></nav></article><aside class="toc"><h4>On this page</h4><ul><li><a href="#setup">Setup</a></li><li><a href="#parts">Parts</a></li><li><a href="#design">Design</a></li><li><a href="#checks-and-inspection">Checks and inspection</a></li><li><a href="#learning">Learning</a></li><li><a href="#output-layout">Output layout</a></li><li><a href="#environment-variables">Environment variables</a></li></ul></aside></div></main><footer class="footer gutter">
+  <div class="container">
+    <div>
+      <a class="logo" href="../index.html"><img src="../logo.svg" alt="" width="26" height="26">Viaduct</a>
+      <p class="fine">PCB design for Claude Code. Open source under the MIT license. Viaduct is an independent project, not made by Anthropic or KiCad.</p>
+    </div>
+    <div><h4>Product</h4><ul>
+      <li><a href="../index.html#examples">Example boards</a></li>
+      <li><a href="../index.html#install">Install</a></li>
+      <li><a href="../index.html#changelog">Changelog</a></li></ul></div>
+    <div><h4>Docs</h4><ul>
+      <li><a href="../docs/getting-started.html">Getting started</a></li>
+      <li><a href="../docs/how-it-works.html">How it works</a></li>
+      <li><a href="../docs/cli.html">CLI reference</a></li>
+      <li><a href="../docs/troubleshooting.html">Troubleshooting</a></li></ul></div>
+    <div><h4>Project</h4><ul>
+      <li><a href="https://github.com/virajrungta/viaduct">GitHub</a></li>
+      <li><a href="https://github.com/virajrungta/viaduct/releases">Releases</a></li>
+      <li><a href="https://github.com/virajrungta/viaduct/issues">Report an issue</a></li></ul></div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll(".copy button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var el = document.getElementById(b.dataset.for);
+    function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1400); }
+    function sel() { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected"; }
+    try { navigator.clipboard.writeText(el.textContent).then(done, sel); } catch (e) { sel(); }
+  });
+});
+(function () {
+  var g = document.getElementById("gallery"); if (!g) return;
+  var prev = document.getElementById("g-prev"), next = document.getElementById("g-next");
+  function step() { var c = g.querySelector(".card"); return c ? c.getBoundingClientRect().width + 18 : 400; }
+  function sync() { prev.disabled = g.scrollLeft < 8; next.disabled = g.scrollLeft + g.clientWidth > g.scrollWidth - 8; }
+  prev.addEventListener("click", function () { g.scrollBy({ left: -step() }); });
+  next.addEventListener("click", function () { g.scrollBy({ left: step() }); });
+  g.addEventListener("scroll", sync, { passive: true }); window.addEventListener("resize", sync); sync();
+})();
+</script>
+</body>
+</html>
