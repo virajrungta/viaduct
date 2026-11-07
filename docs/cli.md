@@ -41,7 +41,8 @@ these commands for you, but they also work on their own.
 | `kipcb check spec.json` | Validates the spec: symbols, footprints, pins, nets, unused pins, logic levels, and the power budget / regulator heat |
 | `kipcb build spec.json [-o DIR] [--no-render]` | Generates the schematic and placed board, runs ERC, the placement DRC and placement noise checks, and renders previews |
 | `kipcb route <project> [--attempts N] [--timeout S] [--no-pour]` | Autoroutes, pours ground, adds stitching vias, then runs DRC and noise checks |
-| `kipcb fab <project> [--fab jlcpcb\|generic] [--force]` | Exports Gerbers and drill zip, BOM and CPL. Refuses while DRC has errors |
+| `kipcb fab <project> [--fab jlcpcb\|generic] [--force]` | Exports Gerbers and drill zip, BOM, CPL and a STEP 3D model (for enclosure design). Refuses while DRC has errors |
+| `kipcb cost <project>` | Rough JLCPCB cost for 5, 10 and 100 boards: bare boards, Economic PCBA assembly and parts (live prices), with the priciest parts and extended-part fees. Estimates; the live quote is the real price |
 
 `<project>` can be the project folder, the `.kicad_pro` / `.kicad_pcb`, or the spec `.json`.
 
@@ -71,9 +72,9 @@ these commands for you, but they also work on their own.
 my_board.json              design spec (source of truth)
 my_board/
   my_board.kicad_pro/.kicad_sch/.kicad_pcb    the KiCad project
-  fab/        <name>-gerbers.zip, <name>-bom.csv, <name>-cpl.csv, gerbers/
+  fab/        <name>-gerbers.zip, <name>-bom.csv, <name>-cpl.csv, <name>.step, gerbers/
   previews/   review.png, schematic.png/.pdf, bottom.png, board.pdf
-  reports/    REPORT.md, erc/drc/noise/placement/build/route/fab .json
+  reports/    REPORT.md, erc/drc/noise/placement/build/route/fab/cost .json
   .kipcb/     router working files and logs (safe to delete)
 ```
 

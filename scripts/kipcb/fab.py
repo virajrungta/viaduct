@@ -38,6 +38,11 @@ def export(pdir, name, fab="jlcpcb", force=False):
     kienv.run_cli(["pcb", "export", "drill", "--format", "excellon", "--excellon-units", "mm",
                    "--drill-origin", "plot", "--generate-map", "--map-format", "gerberx2", "-o", gdir + os.sep, pcb])
 
+    # 3D model for enclosure design (Fusion 360, Onshape, FreeCAD, SolidWorks): board + parts
+    step = os.path.join(fdir, "%s.step" % name)
+    kienv.run_cli(["pcb", "export", "step", "--subst-models", "--no-dnp", "--no-unspecified",
+                   "--drill-origin", "--force", "-o", step, pcb], check=False)
+
     zpath = os.path.join(fdir, "%s-gerbers.zip" % name)
     with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
         for f in sorted(os.listdir(gdir)):
@@ -94,12 +99,24 @@ def export(pdir, name, fab="jlcpcb", force=False):
     import json
     from . import paths
     with open(os.path.join(paths.reports(pdir), "fab.json"), "w") as f:
-        json.dump({"format": fab, "files": [os.path.relpath(p, pdir) for p in (zpath, bom, cpl) if os.path.exists(p)],
+        json.dump({"format": fab, "files": [os.path.relpath(p, pdir) for p in (zpath, bom, cpl, step) if os.path.exists(p)],
                    "missing_lcsc": missing, "stock_issues": stock, "parity_issues": len(parity)}, f, indent=1)
     ui.say("fab outputs in %s" % fdir)
     ui.say("  %s   <- upload to the PCB order page" % os.path.relpath(zpath, pdir))
     ui.say("  %s" % os.path.relpath(bom, pdir))
     ui.say("  %s   <- pick-and-place (CPL) for assembly" % os.path.relpath(cpl, pdir))
+    if os.path.exists(step):
+        ui.say("  %s   <- 3D model for enclosure design (Fusion 360, Onshape, FreeCAD)" % os.path.relpath(step, pdir))
+    if fab == "jlcpcb":
+        from . import cost
+        try:
+            est = cost.run(pdir, name, quiet=True)
+        except Exception:
+            est = None
+        if est:
+            r = {x["qty"]: x for x in est["rows"]}
+            ui.always("cost   ~$%.0f for 5 assembled boards, ~$%.2f each at 100 (estimate; `kipcb cost %s`)"
+                      % (r[5]["total"], r[100]["each"], pdir))
     if missing:
         ui.say("NOTE: no LCSC part number for %s. Add \"lcsc\" to those components for JLCPCB assembly "
               "(or hand-solder / source them)." % ", ".join(missing))

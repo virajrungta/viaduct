@@ -95,6 +95,18 @@ class LayerVoteTests(unittest.TestCase):
         self.assertEqual(sizemodel.layer_vote(rows[0], rows=[]), (None, 0))
 
 
+class DecouplingOrderTests(unittest.TestCase):
+    def test_cap_on_a_small_local_rail_counts_as_decoupling(self):
+        from kipcb import place
+        u = place.Part("U1", (4, 4), [("23", 2.0, 0.0, "DVDD"), ("1", -2.0, 0.0, "GND")], {}, 56)
+        c = place.Part("C9", (1.5, 1.0), [("1", -0.5, 0, "DVDD"), ("2", 0.5, 0, "GND")], {"near": "U1.23"}, 2)
+        r = place.Part("R3", (1.5, 1.0), [("1", -0.5, 0, "DVDD"), ("2", 0.5, 0, "XOUT")], {"near": "U1.23"}, 2)
+        pl = place.Placer(30, 30, [u, c, r], {"DVDD": 3, "GND": 20, "XOUT": 2})
+        u.x, u.y, u.rot = 15, 15, 0
+        self.assertTrue(pl._decoupling(c, pl._near_target(c)))     # 3-pin rail, cap to GND
+        self.assertFalse(pl._decoupling(r, pl._near_target(r)))    # a resistor isn't
+
+
 class GrowFallbackTests(unittest.TestCase):
     def test_snapshot_restore_puts_the_previous_board_back(self):
         import os, tempfile

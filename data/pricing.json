@@ -1,0 +1,51 @@
+{
+  "_about": "Rough JLCPCB price model for `kipcb cost`. Estimates only: the live quote at jlcpcb.com/quote is the real price (shipping, finishes and promotions change it). Update the numbers here when JLCPCB changes its prices.",
+  "as_of": "2026-11",
+  "currency": "USD",
+  "sources": [
+    "https://jlcpcb.com/help/article/pcb-assembly-price",
+    "https://jlcpcb.com/help/article/pcb-fabrication-services-and-production-time",
+    "https://jlcpcb.com/blog/special-discount-on-quality-4-layers-pcbs"
+  ],
+  "pcb": {
+    "promo": [
+      {
+        "layers": 2,
+        "max_w": 100,
+        "max_h": 100,
+        "qty": 5,
+        "price": 2.0
+      },
+      {
+        "layers": 2,
+        "max_w": 100,
+        "max_h": 100,
+        "qty": 10,
+        "price": 5.0
+      },
+      {
+        "layers": 4,
+        "max_w": 50,
+        "max_h": 50,
+        "qty": 5,
+        "price": 2.0
+      }
+    ],
+    "per_m2": {
+      "2": 25.0,
+      "4": 70.6,
+      "6": 120.0
+    },
+    "minimum": {
+      "2": 2.0,
+      "4": 7.5,
+      "6": 25.0
+    }
+  },
+  "assembly": {
+    "service": "Economic PCBA",
+    "setup": 8.0,
+    "per_joint": 0.0017,
+    "extended_part_fee": 3.0
+  }
+}

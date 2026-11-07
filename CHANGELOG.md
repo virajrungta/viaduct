@@ -9,6 +9,39 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.7 - 2026-11-06
+
+**What a board will cost, a 3D model for its enclosure, and tighter decoupling around dense chips.**
+
+### Update
+
+```bash
+claude plugin marketplace update viaduct
+claude plugin update viaduct@viaduct
+```
+
+### What changed
+
+- **Cost estimate.** `kipcb cost <project>` (and a one-line summary after
+  the manufacturing files) estimates JLCPCB's price for 5, 10 and 100
+  boards: bare boards, Economic PCBA assembly and parts at live prices. It
+  names the priciest parts and the extended parts that add a loading fee,
+  so you can swap them before ordering. `/viaduct:fab` reports it. The
+  numbers are estimates without shipping; the live quote is the real price.
+- **STEP 3D model.** The manufacturing files now include `<name>.step`, the
+  assembled board for designing an enclosure in Fusion 360, Onshape,
+  FreeCAD or SolidWorks.
+- **Fix: decoupling caps on small local rails go first.** A capacitor from a
+  chip's supply pin to ground now claims its spot right after the chip,
+  however small the rail. The RP2040's core-voltage (DVDD) caps used to go
+  after the crystal parts had taken the room and ended up 5-8 mm from their
+  pins; now they sit at them, which also lets larger boards and 4-layer
+  RP2040 boards pass preflight.
+- **Fix:** spreading parts out on a roomy board no longer pushes one chip's
+  decoupling caps apart.
+- The website moved to
+  [virajrungta.github.io/viaduct](https://virajrungta.github.io/viaduct/).
+
 ## V2.6 - 2026-11-05
 
 **The plugin is now Viaduct.**
@@ -16,7 +49,7 @@ _Nothing yet._
 Same plugin, new name: commands are now `/viaduct:design`, `/viaduct:review`,
 `/viaduct:inquiry` and `/viaduct:fab`, the repo is
 [virajrungta/viaduct](https://github.com/virajrungta/viaduct), and there's a
-website at [virajrungta.github.io/viaduct-site](https://virajrungta.github.io/viaduct-site/).
+website at [virajrungta.github.io/viaduct](https://virajrungta.github.io/viaduct/).
 
 ### Move to the new name
 

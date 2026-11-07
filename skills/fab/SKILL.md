@@ -20,10 +20,17 @@ argument-hint: "[project dir or .kicad_pro]"
    `kipcb lcsc -s "<part> <package>"` (live stock, basic parts first) and let the
    user confirm, or suggest JLCPCB's BOM tool, hand-soldering or DNP. `kipcb fab`
    also warns about BOM parts that are out of stock at JLCPCB; relay those.
-5. Show `previews/review.png` (render it with `kipcb render <project> --what review`
+5. Run `kipcb cost <project>` and relay the rough cost (5, 10 and 100 boards,
+   per-board price, the priciest parts, extended-part fees). Say it's an
+   estimate without shipping; the live quote is the real price. If one part
+   dominates or extended fees add up, suggest a cheaper basic part
+   (`kipcb lcsc -s ... --basic`) but let the user decide.
+6. Mention `fab/<name>.step`, a 3D model of the assembled board for designing
+   an enclosure in Fusion 360, Onshape, FreeCAD or SolidWorks.
+7. Show `previews/review.png` (render it with `kipcb render <project> --what review`
    if it's missing) so the user sees what they're ordering. `kipcb report <project>`
    prints the summary with the project location and file list.
-6. Hand off with the file paths and the ordering checklist from
+8. Hand off with the file paths and the ordering checklist from
    `${CLAUDE_PLUGIN_ROOT}/skills/design/references/manufacturing.md`: upload the
    Gerber zip, confirm size/layers/thickness/finish, then upload the BOM and
    CPL for assembly and check rotations in the preview.

@@ -119,7 +119,11 @@ class Placer(object):
     def _pair_gap(self, p, q):
         if _near_ref(p) == q.ref or _near_ref(q) == p.ref or p.squeezed or q.squeezed:
             return 2 * min(p.margin, q.margin)
-        extra = p.spread + q.spread if (p.spread and q.spread) else 0.0
+        # spreading parts out to use a roomy board must not push apart the helpers of one
+        # chip (its decoupling ring): on a larger board the cap for a pin next to another
+        # cap's pin lost its slot and ended up 7 mm away. They keep their normal spacing.
+        siblings = _near_ref(p) is not None and _near_ref(p) == _near_ref(q)
+        extra = p.spread + q.spread if (p.spread and q.spread and not siblings) else 0.0
         # a part's bonus (room kept at its pins for its own helpers) doesn't apply against
         # another part's helper: that one sits at its own target, not in this part's pin area
         mp = p.margin - (p.bonus if q.near_ref else 0.0)
@@ -269,6 +273,20 @@ class Placer(object):
         if pts:
             return (sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts))
         return (self.W / 2, self.H / 2)
+
+    def _decoupling(self, part, tgt):
+        """A capacitor aimed at one supply pin, its other side on ground: by what it is, not
+        by how big the rail is. A small local rail (the RP2040's 1.1 V DVDD core, an ADC
+        reference) needs its cap at the pin just as much; judged by rail size, those caps
+        went after crystal parts and pull-ups had taken the room and ended 7 mm away."""
+        if not tgt or not isinstance(tgt[2], str):
+            return False
+        if self.net_sizes.get(tgt[2], 0) > BIG_NET:
+            return True
+        if part.ref[:1] != "C" or not part.ref[1:2].isdigit():
+            return False
+        nets = [n for _, _, _, n in part.pads if n]
+        return tgt[2] in nets and any(n != tgt[2] and self.net_sizes.get(n, 0) > BIG_NET for n in nets)
 
     # ---------------------------------------------------------- placing
     def _rotations(self, part):
@@ -424,7 +442,9 @@ class Placer(object):
                 blocked = 1 if p.hint.get("near") and not near_ready else 0
                 # decoupling caps (pulled to a supply pin) claim their spot before
                 # pull-ups and other helpers compete for the same corner
-                decoupling = 1 if tgt and tgt[2] and self.net_sizes.get(tgt[2], 0) > BIG_NET else 0
+                # main-rail decoupling first (2), then caps on small local rails (1): an
+                # ESP32's EN delay cap (pin 2) must not take the slot of its 3V3 cap (pin 1)
+                decoupling = (2 if self.net_sizes.get(tgt[2], 0) > BIG_NET else 1) if self._decoupling(p, tgt) else 0
                 # a switching regulator's inductor goes before its helpers: the SW node must be short
                 inductor = 1 if tgt and p.ref[:1] == "L" and p.ref[1:2].isdigit() else 0
                 return (-blocked, inductor, decoupling, near_ready, links, p.npads)

@@ -375,6 +375,12 @@ def cmd_settings(a):
     return 0
 
 
+def cmd_cost(a):
+    from . import cost
+    pdir, name = _project_paths(a.target)
+    return 0 if cost.run(pdir, name) else 1
+
+
 def cmd_lcsc(a):
     """C-numbers are looked up; anything else is a search ('kipcb lcsc -s "SHT31 | 10uF 0805"')."""
     from . import lcsc
@@ -586,6 +592,9 @@ def main(argv=None):
     p = sp.add_parser("preflight", help="seconds-long checks that a placed board can route cleanly "
                       "(pad reach, fab limits, edge, placement, density)")
     p.add_argument("spec"); p.set_defaults(fn=cmd_preflight)
+    p = sp.add_parser("cost", help="rough JLCPCB cost for 5/10/100 boards: bare boards, assembly and parts "
+                      "(needs the fab files)")
+    p.add_argument("target"); p.set_defaults(fn=cmd_cost)
     p = sp.add_parser("lcsc", help="look up LCSC/JLCPCB numbers, or search JLCPCB's parts ('a | b'): "
                       "package, basic/extended, stock, price")
     p.add_argument("codes", nargs="+"); p.add_argument("--refresh", action="store_true")
