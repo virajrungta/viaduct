@@ -8,6 +8,7 @@ To update: `claude plugin marketplace update pcb-claude-plugin`, then
 
 | Version | Date | What's new |
 |---|---|---|
+| [V2.10](https://github.com/virajrungta/viaduct/releases/tag/v2.10) | 2026-11-08 | New website address: [viaduct-pcb.github.io](https://viaduct-pcb.github.io/) |
 | [V2.9](https://github.com/virajrungta/viaduct/releases/tag/v2.9) | 2026-11-08 | Startup script the plugin directory can read |
 | [V2.8](https://github.com/virajrungta/viaduct/releases/tag/v2.8) | 2026-11-07 | Ready for Claude's plugin directory |
 | [V2.7](https://github.com/virajrungta/viaduct/releases/tag/v2.7) | 2026-11-06 | What a board will cost, a 3D model for its enclosure, and tighter decoupling around dense chips. |

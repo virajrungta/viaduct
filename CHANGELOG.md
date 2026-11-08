@@ -9,6 +9,12 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.10 - 2026-11-08
+
+**New website address: [viaduct-pcb.github.io](https://viaduct-pcb.github.io/)**
+
+- The plugin's homepage and the README now point to the new address. The old one redirects there.
+
 ## V2.9 - 2026-11-08
 
 **Startup script the plugin directory can read**
