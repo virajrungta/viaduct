@@ -59,6 +59,11 @@ s = open(p).read()
 open(p, "w").write(re.sub(r'__version__ = "[^"]*"', '__version__ = "%s"' % v, s))
 EOF
 
+# ship the knowledge base as small files (the plugin directory caps file size)
+if [[ -f data/knowledge.json ]]; then
+  PYTHONPATH=scripts python3 -m kipcb.knowledge shard data/knowledge.json data/knowledge
+fi
+
 PYTHONPATH=scripts python3 -m unittest discover -s tests
 if command -v claude >/dev/null; then claude plugin validate --strict . && claude plugin validate --strict skills; fi
 

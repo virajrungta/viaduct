@@ -8,6 +8,7 @@ To update: `claude plugin marketplace update pcb-claude-plugin`, then
 
 | Version | Date | What's new |
 |---|---|---|
+| [V2.8](https://github.com/virajrungta/viaduct/releases/tag/v2.8) | 2026-11-07 | Ready for Claude's plugin directory |
 | [V2.7](https://github.com/virajrungta/viaduct/releases/tag/v2.7) | 2026-11-06 | What a board will cost, a 3D model for its enclosure, and tighter decoupling around dense chips. |
 | [V2.6](https://github.com/virajrungta/viaduct/releases/tag/v2.6) | 2026-11-05 | The plugin is now Viaduct. |
 | [V2.5](https://github.com/virajrungta/viaduct/releases/tag/v2.5) | 2026-11-05 | 4- and 6-layer boards, with the layer count chosen for you. |

@@ -85,7 +85,7 @@ my_board/
 | `KIPCB_PYTHON` | Python with `pcbnew` (if KiCad isn't in the default location) |
 | `KIPCB_KICAD_CLI` | Path to `kicad-cli` |
 | `KIPCB_FREEROUTING_JAR` | Use a specific Freerouting jar |
-| `KIPCB_KNOWLEDGE` | Path to a `knowledge.json` (default: `knowledge.json` in the data folder if you built one, else the copy in the plugin's `data/`) |
+| `KIPCB_KNOWLEDGE` | Path to a `knowledge.json` (default: `knowledge.json` in the data folder if you built one, else the copy shipped in the plugin's `data/knowledge/`) |
 | `KIPCB_EXPERIENCE` | Path to the experience log |
 | `KIPCB_LEARN=0` | Disable learning |
 | `KIPCB_CACHE` | Library index and Freerouting cache (default `~/.cache/kipcb`; Windows `%LOCALAPPDATA%\kipcb\cache`) |

@@ -10,3 +10,6 @@ __pycache__/
 # boards designed while testing inside the repo
 hardware/
 .ci-last.log
+
+# the knowledge base ships split up as data/knowledge/ (release.sh builds it from this file)
+data/knowledge.json

@@ -10,12 +10,19 @@ import os
 import re
 
 
-BUNDLED = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-                       "data", "knowledge.json")
+_DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data")
+# The plugin ships the knowledge base split into small files (data/knowledge/: index.json plus
+# parts-N.json), so no single file is large. A whole data/knowledge.json (from `pkb install`
+# in a dev checkout) is used instead when it is there.
+BUNDLED = (os.path.join(_DATA, "knowledge.json") if os.path.exists(os.path.join(_DATA, "knowledge.json"))
+           else os.path.join(_DATA, "knowledge"))
+SHARD_BYTES = 200 * 1024
 
 
 def _built(path):
     """The build time a knowledge base records (first lines of the file), or "" if unreadable."""
+    if os.path.isdir(path):
+        path = os.path.join(path, "index.json")
     try:
         with open(path) as f:
             head = f.read(400)
@@ -47,8 +54,16 @@ def load(path=None):
     if path in _cache:
         return _cache[path]
     try:
-        with open(path) as f:
-            kb = json.load(f)
+        if os.path.isdir(path):
+            with open(os.path.join(path, "index.json")) as f:
+                kb = json.load(f)
+            kb["parts"] = {}
+            for name in sorted(n for n in os.listdir(path) if n.startswith("parts-") and n.endswith(".json")):
+                with open(os.path.join(path, name)) as f:
+                    kb["parts"].update(json.load(f))
+        else:
+            with open(path) as f:
+                kb = json.load(f)
     except (OSError, ValueError):
         kb = None
     _cache[path] = kb
@@ -135,3 +150,40 @@ def placement():
     kb = load()
     pl = (kb or {}).get("placement")
     return pl if pl and pl.get("boards", 0) >= 30 else None
+
+
+def shard(src, dest):
+    """Split a knowledge.json into dest/index.json (everything but the parts, "built" first)
+    and dest/parts-N.json files of about SHARD_BYTES each."""
+    import shutil
+    with open(src) as f:
+        kb = json.load(f)
+    parts = kb.pop("parts", {})
+    if os.path.isdir(dest):
+        shutil.rmtree(dest)
+    os.makedirs(dest)
+    index = {"version": kb.get("version"), "built": kb.get("built")}
+    index.update(kb)
+    with open(os.path.join(dest, "index.json"), "w") as f:
+        json.dump(index, f, separators=(",", ":"))
+    chunk, size, n = {}, 0, 0
+    for key in sorted(parts):
+        item = len(json.dumps({key: parts[key]}, separators=(",", ":")))
+        if chunk and size + item > SHARD_BYTES:
+            with open(os.path.join(dest, "parts-%02d.json" % n), "w") as f:
+                json.dump(chunk, f, separators=(",", ":"))
+            chunk, size, n = {}, 0, n + 1
+        chunk[key] = parts[key]
+        size += item
+    if chunk:
+        with open(os.path.join(dest, "parts-%02d.json" % n), "w") as f:
+            json.dump(chunk, f, separators=(",", ":"))
+    return n + 1
+
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) == 4 and sys.argv[1] == "shard":
+        print("%d parts files" % shard(sys.argv[2], sys.argv[3]))
+    else:
+        sys.exit("usage: python3 -m kipcb.knowledge shard <knowledge.json> <dest-dir>")

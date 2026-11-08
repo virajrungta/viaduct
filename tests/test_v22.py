@@ -96,5 +96,30 @@ class KnowledgePathTests(unittest.TestCase):
                 os.environ.update(env)
 
 
+class ShardedKnowledge(unittest.TestCase):
+    def test_shards_load_back_identically(self):
+        import json
+        import os
+        import tempfile
+        from kipcb import knowledge
+        with tempfile.TemporaryDirectory() as d:
+            src = os.path.join(d, "knowledge.json")
+            kb = {"version": 1, "built": "2026-11-07T00:00:00", "aliases": {"A": "P0"},
+                  "parts": {"P%d" % i: {"designs": i, "pins": ["x" * 400]} for i in range(1500)}}
+            with open(src, "w") as f:
+                json.dump(kb, f)
+            old = knowledge.SHARD_BYTES
+            knowledge.SHARD_BYTES = 100 * 1024
+            try:
+                n = knowledge.shard(src, os.path.join(d, "kb"))
+            finally:
+                knowledge.SHARD_BYTES = old
+            self.assertGreater(n, 1)
+            for name in os.listdir(os.path.join(d, "kb")):
+                self.assertLess(os.path.getsize(os.path.join(d, "kb", name)), 256 * 1024)
+            self.assertEqual(knowledge.load(os.path.join(d, "kb")), kb)
+            self.assertEqual(knowledge._built(os.path.join(d, "kb")), "2026-11-07T00:00:00")
+
+
 if __name__ == "__main__":
     unittest.main()

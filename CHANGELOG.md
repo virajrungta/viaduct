@@ -9,6 +9,14 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.8 - 2026-11-07
+
+**Ready for Claude's plugin directory**
+
+- The knowledge base now ships as small files (`data/knowledge/`) instead of one 1 MB file, so every file fits the directory's size limits. Answers from `kipcb ref` and layout learning are unchanged.
+- New "Network access" section in the README listing everything Viaduct fetches or sends, and what the startup script does.
+- The startup script is rewritten so every command can be read on its own (same behaviour); the status bar setup moved into `scripts/statusline_setup.py`.
+
 ## V2.7 - 2026-11-06
 
 **What a board will cost, a 3D model for its enclosure, and tighter decoupling around dense chips.**

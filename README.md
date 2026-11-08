@@ -272,12 +272,25 @@ Your designs and local learning data stay on disk (see below).
 | KiCad (found automatically) | `/Applications/KiCad` | `C:\Program Files\KiCad\9.0` |
 | Open a board in KiCad | `open hardware/<name>/<name>.kicad_pro` | `start "" hardware\<name>\<name>.kicad_pro` |
 
+## Network access
+
+Viaduct runs on your computer. It only goes online for these, and sends no personal data, files or credentials:
+
+- **Part lookups**: part numbers and search terms go to JLCPCB's and EasyEDA's public parts APIs (with `curl`) for stock, price and footprint data. Results are cached in the downloads folder above.
+- **Autorouter download**: `kipcb setup-router` downloads the Freerouting release from GitHub once.
+- **Datasheets**: Claude may fetch a part's datasheet from the web when a question needs it.
+
+Your board files, settings and learning stay in the folders listed under [Where files live](#where-files-live).
+
+At the start of each Claude Code session, a short readable script ([`scripts/session-start.sh`](scripts/session-start.sh)) saves your install settings for kipcb, checks that KiCad and Java are installed (by looking for them, without running KiCad), shows the welcome or update note, and, unless you turned off the status bar option, adds Viaduct's progress line to `~/.claude/settings.json` when you don't already have a status line. It never goes online.
+
 ## Releases
 
 Every version, newest first (also in [RELEASES.md](RELEASES.md)). Full notes for each are in [CHANGELOG.md](CHANGELOG.md) and on the [releases page](https://github.com/virajrungta/viaduct/releases).
 
 | Version | Date | What's new |
 |---|---|---|
+| [V2.8](https://github.com/virajrungta/viaduct/releases/tag/v2.8) | 2026-11-07 | Ready for Claude's plugin directory |
 | [V2.7](https://github.com/virajrungta/viaduct/releases/tag/v2.7) | 2026-11-06 | What a board will cost, a 3D model for its enclosure, and tighter decoupling around dense chips. |
 | [V2.6](https://github.com/virajrungta/viaduct/releases/tag/v2.6) | 2026-11-05 | The plugin is now Viaduct. |
 | [V2.5](https://github.com/virajrungta/viaduct/releases/tag/v2.5) | 2026-11-05 | 4- and 6-layer boards, with the layer count chosen for you. |
