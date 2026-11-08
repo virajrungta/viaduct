@@ -9,6 +9,14 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.9 - 2026-11-08
+
+**Startup script the plugin directory can read**
+
+- The startup script no longer builds commands from variables or writes script lines out of strings: it calls Python by name and copies a shipped launcher (`scripts/statusline-launcher.sh`) for the status bar. Same behaviour.
+- The status line runs a small file (`scripts/statusline.py`) instead of inline Python.
+- Removed embedded metadata text from a README image.
+
 ## V2.8 - 2026-11-07
 
 **Ready for Claude's plugin directory**

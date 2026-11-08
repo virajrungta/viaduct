@@ -29,28 +29,11 @@ if [[ $IS_WINDOWS == 1 && -z "${XDG_DATA_HOME:-}" && -n "${LOCALAPPDATA:-}" ]]; 
 fi
 mkdir -p "$DATA" "$SETTINGS_DIR" 2>/dev/null
 
-# a Python that really runs (on Windows "python3" can be the Microsoft Store stub)
-PY=""
-if command -v python3 >/dev/null 2>&1 && python3 -c 'import json' >/dev/null 2>&1; then
-  PY=python3
-elif command -v python >/dev/null 2>&1 && python -c 'import json' >/dev/null 2>&1; then
-  PY=python
-elif command -v py >/dev/null 2>&1 && py -c 'import json' >/dev/null 2>&1; then
-  PY=py
-fi
 SETUP="$ROOT/scripts/statusline_setup.py"
 if [[ $IS_WINDOWS == 1 ]]; then
   WIN_SETUP="$(cygpath -w "$SETUP" 2>/dev/null)"
   [[ -n "$WIN_SETUP" ]] && SETUP="$WIN_SETUP"
 fi
-
-json_escape() {   # json_escape <text>: prints the text escaped for a JSON string
-  local s="$1"
-  s="${s//\\/\\\\}"
-  s="${s//\"/\\\"}"
-  s="${s//$'\n'/\\n}"
-  printf '%s' "$s"
-}
 
 # 1. settings from the install dialog (exported by Claude Code as CLAUDE_PLUGIN_OPTION_<KEY>)
 FAB="${CLAUDE_PLUGIN_OPTION_FAB_HOUSE:-JLCPCB}"
@@ -66,30 +49,36 @@ LEARN_JSON=true
 if [[ "$LEARN" == "false" || "$LEARN" == "0" ]]; then
   LEARN_JSON=false
 fi
-FAB_J="$(json_escape "$FAB")"
-BUILD_J="$(json_escape "$BUILD")"
+# JSON-escape the two free-text values (backslashes, then quotes)
+FAB_J="${FAB//\\/\\\\}"
+FAB_J="${FAB_J//\"/\\\"}"
+BUILD_J="${BUILD//\\/\\\\}"
+BUILD_J="${BUILD_J//\"/\\\"}"
 printf '{"fab_house": "%s", "build_method": "%s", "layers": %s, "learning": %s}\n' \
   "$FAB_J" "$BUILD_J" "$LAYERS_JSON" "$LEARN_JSON" > "$SETTINGS_DIR/settings.json" 2>/dev/null
 
 # stable launcher for Claude Code's status line (the plugin's own folder changes per version):
 # "statusLine": {"type": "command", "command": "~/.local/share/kipcb/statusline.sh"}
 LAUNCHER="$SETTINGS_DIR/statusline.sh"
-{
-  echo '#!/usr/bin/env bash'
-  echo "T=\"$ROOT/scripts/statusline.sh\""
-  echo '[ -f "$T" ] && exec bash "$T"'
-} > "$LAUNCHER" 2>/dev/null
+cp "$ROOT/scripts/statusline-launcher.sh" "$LAUNCHER" 2>/dev/null
 chmod +x "$LAUNCHER" 2>/dev/null
+printf '%s\n' "$ROOT" > "$SETTINGS_DIR/plugin-root" 2>/dev/null
 
 # install option "Show design progress in the status bar": set it up (never replacing a status
 # line the user already has), or take ours away again when the option is turned off
 SHOW_PROGRESS="${CLAUDE_PLUGIN_OPTION_PROGRESS_STATUSLINE:-true}"
-if [[ -n "$PY" ]]; then
-  if [[ "$SHOW_PROGRESS" == "false" || "$SHOW_PROGRESS" == "0" ]]; then
-    PYTHONUTF8=1 "$PY" "$SETUP" uninstall >/dev/null 2>&1
-  else
-    PYTHONUTF8=1 "$PY" "$SETUP" install >/dev/null 2>&1
-  fi
+ACTION=install
+if [[ "$SHOW_PROGRESS" == "false" || "$SHOW_PROGRESS" == "0" ]]; then
+  ACTION=uninstall
+fi
+# a Python that really runs (on Windows "python3" can be the Microsoft Store stub)
+export PYTHONUTF8=1
+if command -v python3 >/dev/null 2>&1 && python3 -c 'import json' >/dev/null 2>&1; then
+  python3 "$SETUP" "$ACTION" >/dev/null 2>&1
+elif command -v python >/dev/null 2>&1 && python -c 'import json' >/dev/null 2>&1; then
+  python "$SETUP" "$ACTION" >/dev/null 2>&1
+elif command -v py >/dev/null 2>&1 && py -c 'import json' >/dev/null 2>&1; then
+  py "$SETUP" "$ACTION" >/dev/null 2>&1
 fi
 
 # 2. toolchain check (files only)
@@ -159,8 +148,11 @@ if [[ $router_missing == 1 ]]; then
 fi
 
 # 4. hook output
-MSG_J="$(json_escape "$msg")"
-CONTEXT_J="$(json_escape "$context")"
+# JSON-escape the two messages (backslashes, then quotes; neither has newlines)
+MSG_J="${msg//\\/\\\\}"
+MSG_J="${MSG_J//\"/\\\"}"
+CONTEXT_J="${context//\\/\\\\}"
+CONTEXT_J="${CONTEXT_J//\"/\\\"}"
 printf '{'
 if [[ -n "$msg" ]]; then
   printf '"systemMessage": "%s", ' "$MSG_J"
