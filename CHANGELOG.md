@@ -9,6 +9,14 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.11 - 2026-11-08
+
+**A clearer README, with the demo video**
+
+- The README is reorganised: what it does, commands, a three-step install, an example, privacy, limits and docs. A thumbnail at the top opens the demo video.
+- The startup script no longer reads `KIPCB_*` environment variables; `kipcb doctor` still honours custom install paths.
+- The circuit-reviewer subagent lists its tools as a plain list, and a screenshot no longer carries an embedded colour profile.
+
 ## V2.10 - 2026-11-08
 
 **New website address: [viaduct-pcb.github.io](https://viaduct-pcb.github.io/)**

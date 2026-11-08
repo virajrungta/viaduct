@@ -20,12 +20,12 @@ OS_NAME="$(uname -s 2>/dev/null)"
 IS_WINDOWS=0
 case "$OS_NAME" in MINGW*|MSYS*|CYGWIN*) IS_WINDOWS=1 ;; esac
 SETTINGS_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/kipcb"
-CACHE="${KIPCB_CACHE:-$HOME/.cache/kipcb}"
+CACHE="$HOME/.cache/kipcb"
 if [[ $IS_WINDOWS == 1 && -z "${XDG_DATA_HOME:-}" && -n "${LOCALAPPDATA:-}" ]]; then
   LAD="$(cygpath -u "$LOCALAPPDATA" 2>/dev/null)"
   [[ -z "$LAD" ]] && LAD="$LOCALAPPDATA"
   SETTINGS_DIR="$LAD/kipcb"
-  CACHE="${KIPCB_CACHE:-$LAD/kipcb/cache}"
+  CACHE="$LAD/kipcb/cache"
 fi
 mkdir -p "$DATA" "$SETTINGS_DIR" 2>/dev/null
 
@@ -87,9 +87,8 @@ have_kicad=0
 if [[ -x /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli ]]; then have_kicad=1; fi
 if [[ -x "$HOME/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli" ]]; then have_kicad=1; fi
 if command -v kicad-cli >/dev/null 2>&1; then have_kicad=1; fi
-if [[ -n "${KIPCB_KICAD_CLI:-}" ]]; then have_kicad=1; fi
 if [[ $IS_WINDOWS == 1 && $have_kicad == 0 ]]; then
-  for root in "${KIPCB_KICAD_ROOT:-}" "${ProgramW6432:+$ProgramW6432/KiCad/9.0}" \
+  for root in "${ProgramW6432:+$ProgramW6432/KiCad/9.0}" \
               "${PROGRAMFILES:+$PROGRAMFILES/KiCad/9.0}" "${LOCALAPPDATA:+$LOCALAPPDATA/Programs/KiCad/9.0}"; do
     [[ -z "$root" ]] && continue
     unix_root="$(cygpath -u "$root" 2>/dev/null)"
@@ -116,7 +115,6 @@ else
   missing+=("Java 21+ for the autorouter (macOS: brew install --cask temurin)")
 fi
 router_missing=1
-if [[ -n "${KIPCB_FREEROUTING_JAR:-}" ]]; then router_missing=0; fi
 for jar in "$CACHE"/freerouting-*.jar; do
   [[ -f "$jar" ]] && router_missing=0
 done
@@ -139,7 +137,7 @@ if (( ${#missing[@]} )); then
   for item in "${missing[@]}"; do
     needs="${needs:+$needs; }$item"
   done
-  msg="${msg:+$msg }Viaduct needs: $needs. Run kipcb doctor for details."
+  msg="${msg:+$msg }Viaduct couldn't find: $needs. Run kipcb doctor to check (it also honours custom install paths)."
 fi
 
 context="Viaduct (PCB design plugin) defaults from the user's settings: manufacturer $FAB; build: $BUILD; layers: $LAYERS (auto = let kipcb choose from the design; a number = use it as board.layers); learning ${LEARN}."

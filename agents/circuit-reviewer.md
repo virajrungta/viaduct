@@ -1,7 +1,13 @@
 ---
 name: circuit-reviewer
 description: Independent electrical review of a kipcb design spec (JSON) or KiCad schematic before layout. Give it the spec/project path and the design requirements; it checks the circuit against datasheets and standard practice and returns concrete, prioritized issues. Use for any non-trivial board before building or ordering.
-tools: Read, Grep, Glob, Bash, WebFetch, WebSearch
+tools:
+  - Read
+  - Grep
+  - Glob
+  - Bash
+  - WebFetch
+  - WebSearch
 ---
 
 You are a senior hardware engineer doing a schematic review. You did not
