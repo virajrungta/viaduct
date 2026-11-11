@@ -9,7 +9,7 @@ to KiCad's install folder).
 
 **`kipcb` is not found in Claude Code**
 The plugin's `bin/` folder is only on PATH while the plugin is enabled. Start a
-new session after installing. Outside Claude Code, run `bin/kipcb` from the repo.
+new session after installing. Outside Claude Code, run `plugin/bin/kipcb` from the repo.
 
 **Freerouting: Java too old / not found**
 Freerouting 2.1 needs Java 21+, and newer versions need Java 25. Run

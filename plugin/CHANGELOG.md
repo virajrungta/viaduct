@@ -9,6 +9,14 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.12 - 2026-11-11
+
+**A tidier repository, and an edition for Claude's plugin directory**
+
+- The plugin now lives in `plugin/`, so the README shows near the top of the repository page. Installing and updating work as before (`viaduct@viaduct`).
+- New `lite/` edition for Claude's plugin directory: the same skills and reviewer agent with no code. On first use it asks, then downloads the matching kipcb engine from this repository's release into `~/.viaduct/engine/`.
+- `kipcb settings --save` updates your defaults (the directory edition uses it, since it has no startup script).
+
 ## V2.11 - 2026-11-08
 
 **A clearer README, with the demo video**

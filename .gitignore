@@ -1,5 +1,5 @@
 # generated KiCad projects from the examples
-examples/*/
+plugin/examples/*/
 *.kicad_prl
 *-backups/
 fp-info-cache
@@ -11,5 +11,5 @@ __pycache__/
 hardware/
 .ci-last.log
 
-# the knowledge base ships split up as data/knowledge/ (release.sh builds it from this file)
-data/knowledge.json
+# the knowledge base ships split up as plugin/data/knowledge/ (plugin/scripts/release.sh builds it from this file)
+plugin/data/knowledge.json

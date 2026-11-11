@@ -17,6 +17,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: plugin
     steps:
       - uses: actions/checkout@v4
 
@@ -48,19 +49,19 @@ jobs:
       - name: kipcb finds KiCad
         run: |
           test -s bin/kipcb
-          bash .github/ci/run.sh "kipcb doctor" bin/kipcb doctor || true
-          bash .github/ci/run.sh "kipcb sym-search" bin/kipcb sym-search "AMS1117"
+          bash ../.github/ci/run.sh "kipcb doctor" bin/kipcb doctor || true
+          bash ../.github/ci/run.sh "kipcb sym-search" bin/kipcb sym-search "AMS1117"
           grep -q "AMS1117" .ci-last.log
 
       - name: Unit tests (KiCad's bundled Python)
         run: |
           PY="/c/Program Files/KiCad/9.0/bin/python.exe"
           # KiCad's embedded Python ignores PYTHONPATH: add scripts/ to sys.path in code
-          PYTHONIOENCODING=utf-8 PYTHONUTF8=1 bash .github/ci/run.sh "unit tests" "$PY" -c \
+          PYTHONIOENCODING=utf-8 PYTHONUTF8=1 bash ../.github/ci/run.sh "unit tests" "$PY" -c \
             "import sys, unittest; sys.path[:0] = [r'$(cygpath -w scripts)', '.']; unittest.main(module=None, argv=['unittest', 'discover', '-s', 'tests', '-v'])"
 
       - name: Freerouting
-        run: bash .github/ci/run.sh "setup-router" bin/kipcb setup-router
+        run: bash ../.github/ci/run.sh "setup-router" bin/kipcb setup-router
 
       - name: Design the examples end to end
         id: examples
@@ -69,7 +70,7 @@ jobs:
           for ex in usb_blinker c3_sensor c3_blocks; do
             cp "examples/$ex.json" ci-out/
             echo "::group::$ex"
-            bash .github/ci/run.sh "$ex" bin/kipcb run "ci-out/$ex.json"
+            bash ../.github/ci/run.sh "$ex" bin/kipcb run "ci-out/$ex.json"
             cp .ci-last.log "ci-out/$ex.log"
             echo "::endgroup::"
             grep -q "READY TO ORDER" "ci-out/$ex.log" || { echo "$ex is not ready to order"; exit 1; }
@@ -78,16 +79,16 @@ jobs:
       - name: Diagnose kicad-cli (only when the examples failed)
         if: failure() && steps.examples.outcome == 'failure'
         run: |
-          bash .github/ci/show.sh "build replay" "/c/Program Files/KiCad/9.0/bin/python.exe" .github/ci/diag_build.py examples/usb_blinker.json
-          bash .github/ci/show.sh "kipcb erc on the built project" bin/kipcb erc ci-out/usb_blinker
+          bash ../.github/ci/show.sh "build replay" "/c/Program Files/KiCad/9.0/bin/python.exe" ../.github/ci/diag_build.py examples/usb_blinker.json
+          bash ../.github/ci/show.sh "kipcb erc on the built project" bin/kipcb erc ci-out/usb_blinker
 
       - name: Previews, progress and status line work
         run: |
-          bash .github/ci/run.sh "schematic preview" test -s ci-out/c3_blocks/previews/schematic.png
-          bash .github/ci/run.sh "board preview" test -s ci-out/c3_blocks/previews/review.png
-          bash .github/ci/run.sh "board pdf is a file" test -f ci-out/c3_blocks/previews/board.pdf
-          bash .github/ci/run.sh "progress" bin/kipcb progress
-          bash .github/ci/run.sh "status line" bash scripts/statusline.sh </dev/null
+          bash ../.github/ci/run.sh "schematic preview" test -s ci-out/c3_blocks/previews/schematic.png
+          bash ../.github/ci/run.sh "board preview" test -s ci-out/c3_blocks/previews/review.png
+          bash ../.github/ci/run.sh "board pdf is a file" test -f ci-out/c3_blocks/previews/board.pdf
+          bash ../.github/ci/run.sh "progress" bin/kipcb progress
+          bash ../.github/ci/run.sh "status line" bash scripts/statusline.sh </dev/null
 
       - name: Session-start hook
         run: |
@@ -98,6 +99,6 @@ jobs:
         with:
           name: windows-boards
           path: |
-            ci-out/**/previews/*.png
-            ci-out/**/reports/REPORT.md
-            ci-out/*.log
+            plugin/ci-out/**/previews/*.png
+            plugin/ci-out/**/reports/REPORT.md
+            plugin/ci-out/*.log

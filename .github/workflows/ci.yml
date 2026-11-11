@@ -8,6 +8,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: plugin
     strategy:
       matrix:
         # 3.9 matches the Python bundled with KiCad 9 on macOS
@@ -21,6 +24,8 @@ jobs:
         run: PYTHONPATH=scripts python -m unittest discover -s tests -v
       - name: Manifests and examples are valid JSON
         run: |
-          for f in .claude-plugin/*.json examples/*.json; do python -m json.tool "$f" > /dev/null; done
+          for f in ../.claude-plugin/*.json .claude-plugin/*.json ../lite/.claude-plugin/*.json examples/*.json; do python -m json.tool "$f" > /dev/null; done
       - name: Shell scripts parse
         run: bash -n bin/kipcb && bash -n scripts/release.sh
+      - name: lite/ (the Claude-directory edition) is up to date and code-free
+        run: python tools/build_lite.py && git diff --exit-code -- ../lite && test -z "$(git status --porcelain -- ../lite)"

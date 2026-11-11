@@ -127,7 +127,7 @@ git clone https://github.com/virajrungta/viaduct
 ```
 
 ```bash
-cd viaduct && bin/kipcb run examples/usb_blinker.json
+cd viaduct/plugin && bin/kipcb run examples/usb_blinker.json
 ```
 
 Then open `examples/usb_blinker/usb_blinker.kicad_pro` in KiCad.

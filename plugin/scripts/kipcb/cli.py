@@ -365,13 +365,15 @@ def cmd_ref(a):
 
 def cmd_settings(a):
     from . import learn, progress
+    if a.save:
+        learn.save_settings(a.fab, a.build, a.layers, a.learning)
     s = learn.settings()
     print("manufacturer:  %s" % s.get("fab_house", "JLCPCB (default)"))
     print("build method:  %s" % s.get("build_method", "Assembled by the manufacturer (default)"))
     print("layers:        %s" % s.get("layers", "auto (default)"))
     print("learning:      %s" % ("on" if learn.enabled() else "off"))
     print("status bar:    %s" % ("PCB progress" if progress.statusline_installed() else "not set"))
-    print("change with:   /plugin configure viaduct@viaduct")
+    print("change with:   /plugin configure (Viaduct's options)")
     return 0
 
 
@@ -610,7 +612,13 @@ def main(argv=None):
     p.add_argument("topic", nargs="*"); p.set_defaults(fn=cmd_guide)
     p = sp.add_parser("fmt", help="rewrite specs in the compact one-line-per-part layout")
     p.add_argument("spec", nargs="+"); p.set_defaults(fn=cmd_fmt)
-    sp.add_parser("settings", help="show your defaults from the install dialog").set_defaults(fn=cmd_settings)
+    p = sp.add_parser("settings", help="show your defaults from the install dialog (--save to update them)")
+    p.add_argument("--save", action="store_true", help="save the values given below")
+    p.add_argument("--fab", help="default manufacturer, e.g. JLCPCB")
+    p.add_argument("--build", help="'Assembled by the manufacturer' or 'Hand soldering'")
+    p.add_argument("--layers", help="Auto, 2, 4 or 6")
+    p.add_argument("--learning", help="true or false")
+    p.set_defaults(fn=cmd_settings)
     p = sp.add_parser("learn", help="show or reset what kipcb has learned from past runs")
     p.add_argument("action", nargs="?", default="status", choices=["status", "reset"])
     p.set_defaults(fn=cmd_learn)

@@ -1,7 +1,7 @@
 {
   "name": "viaduct",
   "displayName": "Viaduct",
-  "version": "2.11",
+  "version": "2.12",
   "description": "Viaduct: describe a circuit board and get a manufacturable KiCad PCB: requirements, part selection, schematic, placement, autorouting, ERC/DRC and fab outputs (Gerbers, BOM, pick-and-place).",
   "author": {
     "name": "Viraj Rungta"

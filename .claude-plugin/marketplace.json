@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "viaduct",
-      "source": "./",
+      "source": "./plugin",
       "description": "Idea-to-PCB design with KiCad: schematic, placement, autorouting, checks and fab outputs."
     }
   ]

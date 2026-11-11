@@ -45,6 +45,25 @@ def settings():
         return {}
 
 
+def save_settings(fab_house=None, build_method=None, layers=None, learning=None):
+    """Update the saved defaults (the Claude-directory build saves them from its skills,
+    since it has no session-start hook). Unset arguments keep their current value."""
+    s = settings()
+    if fab_house:
+        s["fab_house"] = fab_house
+    if build_method:
+        s["build_method"] = build_method
+    if layers:
+        digits = "".join(ch for ch in str(layers) if ch.isdigit())
+        s["layers"] = int(digits) if digits else "auto"
+    if learning is not None:
+        s["learning"] = str(learning).strip().lower() not in ("false", "0", "off", "no")
+    os.makedirs(data_dir(), exist_ok=True)
+    with open(os.path.join(data_dir(), "settings.json"), "w") as f:
+        json.dump(s, f)
+    return s
+
+
 def enabled():
     if "KIPCB_LEARN" in os.environ:
         return os.environ["KIPCB_LEARN"] != "0"

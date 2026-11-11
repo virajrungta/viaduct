@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Cut a release: scripts/release.sh 1.1
+# Cut a release (from plugin/): scripts/release.sh 1.1
 #
 #  1. moves the "Unreleased" notes in CHANGELOG.md under "V1.1 - <date>"
 #  2. sets the version in .claude-plugin/plugin.json and scripts/kipcb/__init__.py
-#  3. runs the tests (and `claude plugin validate` if the CLI is installed)
+#  3. rebuilds ../lite (the Claude-directory edition) and runs the tests
+#     (and `claude plugin validate` if the CLI is installed)
 #  4. commits "V1.1", tags v1.1, and pushes; GitHub Actions then publishes the release
 set -euo pipefail
 
@@ -42,7 +43,7 @@ open(p, "w").write(s)
 head = re.search(r"^\*\*(.+?)\*\*", notes, re.M) or re.search(r"^- \*\*(.+?)\*\*", notes, re.M)
 summary = head.group(1).strip().rstrip(":") if head else notes.splitlines()[0].lstrip("- ")
 row = "| [V%s](https://github.com/virajrungta/viaduct/releases/tag/v%s) | %s | %s |" % (v, v, today, summary)
-for p in ("README.md", "RELEASES.md"):
+for p in ("../README.md", "RELEASES.md"):
     t = open(p).read()
     i = t.find("| Version | Date | What's new |\n|---|---|---|\n")
     if i < 0:
@@ -64,8 +65,13 @@ if [[ -f data/knowledge.json ]]; then
   PYTHONPATH=scripts python3 -m kipcb.knowledge shard data/knowledge.json data/knowledge
 fi
 
+# the code-free edition listed in Claude's plugin directory (../lite), pinned to this version
+python3 tools/build_lite.py
+
 PYTHONPATH=scripts python3 -m unittest discover -s tests
-if command -v claude >/dev/null; then claude plugin validate --strict . && claude plugin validate --strict skills; fi
+if command -v claude >/dev/null; then
+  claude plugin validate --strict .. && claude plugin validate --strict . && claude plugin validate --strict ../lite
+fi
 
 NOTES="$(python3 - "$VERSION" <<'EOF'
 import re, sys

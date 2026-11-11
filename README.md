@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src=".claude-plugin/icon.png" alt="Viaduct logo" width="88">
+<img src="plugin/.claude-plugin/icon.png" alt="Viaduct logo" width="88">
 
 # Viaduct
 
@@ -15,9 +15,9 @@ placement, routing, checks and ordering files.
 <img src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows-555" alt="macOS and Windows">
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
 
-[Website](https://viaduct-pcb.github.io/) · [Getting started](docs/getting-started.md) · [How it works](docs/how-it-works.md) · [CLI reference](docs/cli.md) · [Troubleshooting](docs/troubleshooting.md)
+[Website](https://viaduct-pcb.github.io/) · [Getting started](plugin/docs/getting-started.md) · [How it works](plugin/docs/how-it-works.md) · [CLI reference](plugin/docs/cli.md) · [Troubleshooting](plugin/docs/troubleshooting.md)
 
-<a href="https://viaduct-pcb.github.io/#demo"><img src="docs/images/demo.jpg" alt="Watch the Viaduct demo video: a board described in one sentence, then designed, routed and checked" width="720"></a>
+<a href="https://viaduct-pcb.github.io/#demo"><img src="plugin/docs/images/demo.jpg" alt="Watch the Viaduct demo video: a board described in one sentence, then designed, routed and checked" width="720"></a>
 
 <sub>▶ Watch the demo (about a minute)</sub>
 
@@ -45,11 +45,11 @@ Everything is a normal **KiCad 9 project** you can open and edit at any point.
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="docs/images/c3_sensor_top.png" alt="ESP32-C3 sensor board, top view" width="100%"><br>
+      <img src="plugin/docs/images/c3_sensor_top.png" alt="ESP32-C3 sensor board, top view" width="100%"><br>
       <sub><b>ESP32-C3 sensor node</b>: 0 DRC errors, antenna keep-out respected,<br>decoupling within 2 mm of every supply pin</sub>
     </td>
     <td align="center" width="50%">
-      <img src="docs/images/c3_sensor_schematic.png" alt="Generated schematic for the ESP32-C3 sensor node" width="100%"><br>
+      <img src="plugin/docs/images/c3_sensor_schematic.png" alt="Generated schematic for the ESP32-C3 sensor node" width="100%"><br>
       <sub><b>Its schematic</b>: grouped by function, labelled nets,<br>ERC-clean and editable in KiCad</sub>
     </td>
   </tr>
@@ -65,7 +65,7 @@ Everything is a normal **KiCad 9 project** you can open and edit at any point.
 | `/viaduct:fab [project]` | Gerbers, BOM, pick-and-place and an ordering checklist |
 
 A `circuit-reviewer` subagent gives an independent second opinion on any circuit, and the
-`kipcb` engine behind all of it can be used on its own ([CLI reference](docs/cli.md)).
+`kipcb` engine behind all of it can be used on its own ([CLI reference](plugin/docs/cli.md)).
 
 ## Install
 
@@ -93,7 +93,7 @@ In the desktop app instead: **Code** tab → **+** → **Plugins** → **Add plu
 ```
 
 The first session welcomes you and says if KiCad or Java is missing. Ask Claude to *"run kipcb doctor"*
-for a full check. The [getting started guide](docs/getting-started.md) walks through a first board, opening
+for a full check. The [getting started guide](plugin/docs/getting-started.md) walks through a first board, opening
 it in KiCad and ordering it.
 
 ### Settings
@@ -124,7 +124,7 @@ To remove it: `claude plugin uninstall viaduct@viaduct` (your boards and setting
 From a clone of this repo, one command runs the whole pipeline in about 20 seconds:
 
 ```bash
-bin/kipcb run examples/c3_sensor.json
+plugin/bin/kipcb run plugin/examples/c3_sensor.json
 ```
 
 ```text
@@ -139,11 +139,11 @@ Time      check 0s, build 10s, route 7s, fab 2s (total 19s)
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="docs/images/usb_blinker_angle.png" alt="USB-C ATtiny85 LED blinker" width="100%"><br>
+      <img src="plugin/docs/images/usb_blinker_angle.png" alt="USB-C ATtiny85 LED blinker" width="100%"><br>
       <sub><a href="examples/usb_blinker.json"><code>usb_blinker.json</code></a>: 30 × 22 mm, ATtiny85, USB-C power, ISP header</sub>
     </td>
     <td align="center" width="50%">
-      <img src="docs/images/usb_blinker_top.png" alt="USB-C LED blinker, top view" width="100%"><br>
+      <img src="plugin/docs/images/usb_blinker_top.png" alt="USB-C LED blinker, top view" width="100%"><br>
       <sub>Routed on top so the bottom stays a solid ground plane</sub>
     </td>
   </tr>
@@ -159,7 +159,7 @@ Viaduct runs locally. It sends no personal data, files or credentials anywhere, 
 - **The autorouter**: `kipcb setup-router` downloads the Freerouting release from GitHub once, after asking you.
 - **Datasheets**: Claude may fetch a part's datasheet when a question needs it.
 
-At the start of each session, a short script ([`scripts/session-start.sh`](scripts/session-start.sh)) saves your
+At the start of each session, a short script ([`session-start.sh`](plugin/scripts/session-start.sh)) saves your
 settings for kipcb, looks for KiCad and Java (without running KiCad), shows the welcome or update note, and,
 unless you turned the status bar option off, adds Viaduct's progress line to `~/.claude/settings.json` when you
 don't already have a status line. It never goes online.
@@ -181,22 +181,23 @@ design before ordering boards.**
 
 | Guide | For |
 |---|---|
-| [Getting started](docs/getting-started.md) | Installing, your first board, opening it in KiCad, ordering |
-| [How it works](docs/how-it-works.md) | The pipeline, placement, routing, checks and learning |
-| [CLI reference](docs/cli.md) | Every `kipcb` command and environment variable |
-| [Design spec format](skills/design/references/spec-format.md) | The JSON spec: parts, nets, placement hints, custom parts |
-| [Circuit patterns](skills/design/references/circuit-patterns.md) | Proven sub-circuits and values Claude follows |
-| [Layout and noise guidelines](skills/design/references/layout-guidelines.md) | Placement, routing and noise-check criteria |
-| [Manufacturing](skills/design/references/manufacturing.md) | Fab rules, JLCPCB assembly and the ordering checklist |
-| [Troubleshooting](docs/troubleshooting.md) | Common problems and fixes |
+| [Getting started](plugin/docs/getting-started.md) | Installing, your first board, opening it in KiCad, ordering |
+| [How it works](plugin/docs/how-it-works.md) | The pipeline, placement, routing, checks and learning |
+| [CLI reference](plugin/docs/cli.md) | Every `kipcb` command and environment variable |
+| [Design spec format](plugin/skills/design/references/spec-format.md) | The JSON spec: parts, nets, placement hints, custom parts |
+| [Circuit patterns](plugin/skills/design/references/circuit-patterns.md) | Proven sub-circuits and values Claude follows |
+| [Layout and noise guidelines](plugin/skills/design/references/layout-guidelines.md) | Placement, routing and noise-check criteria |
+| [Manufacturing](plugin/skills/design/references/manufacturing.md) | Fab rules, JLCPCB assembly and the ordering checklist |
+| [Troubleshooting](plugin/docs/troubleshooting.md) | Common problems and fixes |
 
 ## Releases
 
-The latest versions are below. Every version is in [RELEASES.md](RELEASES.md), with full notes in the
-[changelog](CHANGELOG.md).
+The latest versions are below. Every version is in [RELEASES.md](plugin/RELEASES.md), with full notes in the
+[changelog](plugin/CHANGELOG.md).
 
 | Version | Date | What's new |
 |---|---|---|
+| [V2.12](https://github.com/virajrungta/viaduct/releases/tag/v2.12) | 2026-11-11 | A tidier repository, and an edition for Claude's plugin directory |
 | [V2.11](https://github.com/virajrungta/viaduct/releases/tag/v2.11) | 2026-11-08 | A clearer README, with the demo video |
 | [V2.10](https://github.com/virajrungta/viaduct/releases/tag/v2.10) | 2026-11-08 | New website address: [viaduct-pcb.github.io](https://viaduct-pcb.github.io/) |
 | [V2.9](https://github.com/virajrungta/viaduct/releases/tag/v2.9) | 2026-11-08 | Startup script the plugin directory can read |
@@ -206,8 +207,11 @@ The latest versions are below. Every version is in [RELEASES.md](RELEASES.md), w
 
 ## Contributing
 
-Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the development setup, tests and
+Issues and pull requests are welcome. See [CONTRIBUTING.md](plugin/CONTRIBUTING.md) for the development setup, tests and
 release process.
+
+The plugin lives in [`plugin/`](plugin). [`lite/`](lite) is a code-free edition for Claude's plugin directory,
+generated from it, which downloads the same engine on first use after asking.
 
 ## License
 
