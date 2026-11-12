@@ -38,7 +38,7 @@ You run in your own context and every fetched page costs tokens. Batch
    strapping pins, which IOs are used) and everything outside them.
 2. Run `kipcb sym-info <every non-passive symbol>` in one call to see the real
    pin names and types, and confirm each net connection is what the designer intended.
-   (`kipcb` is `"$HOME/.viaduct/engine/2.12/plugin/bin/kipcb"`; if it's missing, say so
+   (`kipcb` is `"$HOME/.viaduct/engine/2.13/plugin/bin/kipcb"`; if it's missing, say so
    and review from the spec and datasheets alone.)
 3. Compare each IC against its typical application circuit (required external
    parts and values, pin strapping, supply range): `kipcb ref <part>` and

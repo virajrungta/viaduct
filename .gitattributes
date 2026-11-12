@@ -9,5 +9,3 @@ plugin/bin/kipcb   text eol=lf
 *.png       binary
 *.jpg       binary
 *.webp      binary
-lite/ export-ignore
-.github/ export-ignore

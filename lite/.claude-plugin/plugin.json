@@ -1,7 +1,7 @@
 {
   "name": "viaduct",
   "displayName": "Viaduct",
-  "version": "2.12",
+  "version": "2.13",
   "description": "Describe a circuit board and get a manufacturable KiCad PCB: requirements, parts, schematic, placement, autorouting, ERC/DRC and fab outputs. Downloads its open-source engine on first use, after asking.",
   "author": {
     "name": "Viraj Rungta"

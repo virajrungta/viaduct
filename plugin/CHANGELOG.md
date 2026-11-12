@@ -9,6 +9,12 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.13 - 2026-11-11
+
+**Plugin directory fix**
+
+- The repository download is now exactly the repository: no files are left out of it, as Claude's plugin directory requires.
+
 ## V2.12 - 2026-11-11
 
 **A tidier repository, and an edition for Claude's plugin directory**
