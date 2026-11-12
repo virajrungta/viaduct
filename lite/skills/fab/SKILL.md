@@ -10,27 +10,30 @@ argument-hint: "[project dir or .kicad_pro]"
 
 This plugin drives `kipcb`, Viaduct's open-source KiCad engine (MIT,
 https://github.com/virajrungta/viaduct), which runs on the user's computer.
-Below, `kipcb` means `"$HOME/.viaduct/engine/2.13/plugin/bin/kipcb"`; always call
+Below, `kipcb` means `"$HOME/.viaduct/engine/2.14/plugin/bin/kipcb"`; always call
 it by that full path. Before the first kipcb command in a session:
 
-1. Check it's there: `test -x "$HOME/.viaduct/engine/2.13/plugin/bin/kipcb" && echo installed`
-2. If it isn't, tell the user Viaduct needs its engine: release V2.13 of the
+1. Check it's there: `test -x "$HOME/.viaduct/engine/2.14/plugin/bin/kipcb" && echo installed`
+2. If it isn't, tell the user Viaduct needs its engine: release V2.14 of the
    open-source Viaduct repo, downloaded once from GitHub (about 3 MB) into
-   `~/.viaduct/engine/2.13`. Ask with AskUserQuestion before downloading. If they
+   `~/.viaduct/engine/2.14`. Ask with AskUserQuestion before downloading. If they
    agree, run these three commands:
 
    ```bash
-   mkdir -p "$HOME/.viaduct/engine/2.13"
-   curl -fsSL -o "$HOME/.viaduct/engine/v2.13.tar.gz" https://github.com/virajrungta/viaduct/archive/refs/tags/v2.13.tar.gz
-   tar -xzf "$HOME/.viaduct/engine/v2.13.tar.gz" -C "$HOME/.viaduct/engine/2.13" --strip-components=1
+   mkdir -p "$HOME/.viaduct/engine/2.14"
+   curl -fsSL -o "$HOME/.viaduct/engine/v2.14.tar.gz" https://github.com/virajrungta/viaduct/archive/refs/tags/v2.14.tar.gz
+   tar -xzf "$HOME/.viaduct/engine/v2.14.tar.gz" -C "$HOME/.viaduct/engine/2.14" --strip-components=1
    ```
 
    Then run `kipcb doctor` and tell the user plainly what's missing, if anything
    (KiCad 9 and Java 21+; `kipcb doctor` prints the install commands). If they
    decline, say that boards can't be built or checked without it, and help with
    what doesn't need it.
-3. Save the user's defaults for kipcb (quick; do it every session):
-   `kipcb settings --save --fab "${user_config.fab_house}" --build "${user_config.build_method}" --layers "${user_config.layers}" --learning "${user_config.learning}"`
+
+The user's defaults (manufacturer, build method, layer count, learning) are in
+`kipcb settings`: JLCPCB, assembled by the manufacturer, auto layers and learning on
+until the user changes them. When the user asks for different defaults, save them,
+e.g. `kipcb settings --save --fab PCBWay --build "Hand soldering" --layers 4 --learning false`.
 
 
 1. Locate the project (the argument, or the single `.kicad_pro` nearby).

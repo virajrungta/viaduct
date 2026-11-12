@@ -1,7 +1,7 @@
 {
   "name": "viaduct",
   "displayName": "Viaduct",
-  "version": "2.13",
+  "version": "2.14",
   "description": "Describe a circuit board and get a manufacturable KiCad PCB: requirements, parts, schematic, placement, autorouting, ERC/DRC and fab outputs. Downloads its open-source engine on first use, after asking.",
   "author": {
     "name": "Viraj Rungta"
@@ -20,47 +20,5 @@
     "jlcpcb",
     "freerouting"
   ],
-  "userConfig": {
-    "fab_house": {
-      "type": "string",
-      "title": "Default PCB manufacturer",
-      "description": "Who you usually order boards from. Sets the BOM and pick-and-place format and the design rules Claude aims for.",
-      "options": [
-        "JLCPCB",
-        "PCBWay",
-        "OSH Park",
-        "Other"
-      ],
-      "default": "JLCPCB"
-    },
-    "build_method": {
-      "type": "string",
-      "title": "How boards get built",
-      "description": "Assembled by the manufacturer allows small parts (0402/0603) and prefers stocked parts; hand soldering keeps parts at 0805 or larger.",
-      "options": [
-        "Assembled by the manufacturer",
-        "Hand soldering"
-      ],
-      "default": "Assembled by the manufacturer"
-    },
-    "layers": {
-      "type": "string",
-      "title": "Default layer count",
-      "description": "Auto lets the AI pick from the design's complexity (and explains why); 2 is cheapest; 4 and 6 add solid ground and power planes.",
-      "options": [
-        "Auto",
-        "2",
-        "4",
-        "6"
-      ],
-      "default": "Auto"
-    },
-    "learning": {
-      "type": "boolean",
-      "title": "Learn from my boards",
-      "description": "Remember which layouts and routing strategies worked so future boards go faster. Stored only on this computer.",
-      "default": true
-    }
-  },
   "icon": ".claude-plugin/icon.png"
 }

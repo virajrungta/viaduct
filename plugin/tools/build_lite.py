@@ -44,8 +44,11 @@ it by that full path. Before the first kipcb command in a session:
    what doesn't need it.
 """
 
-SAVE = """3. Save the user's defaults for kipcb (quick; do it every session):
-   `kipcb settings --save --fab "${{user_config.fab_house}}" --build "${{user_config.build_method}}" --layers "${{user_config.layers}}" --learning "${{user_config.learning}}"`
+SAVE = """
+The user's defaults (manufacturer, build method, layer count, learning) are in
+`kipcb settings`: JLCPCB, assembled by the manufacturer, auto layers and learning on
+until the user changes them. When the user asks for different defaults, save them,
+e.g. `kipcb settings --save --fab PCBWay --build "Hand soldering" --layers 4 --learning false`.
 """
 
 ON_PATH = "`kipcb` is on PATH (fallback `${CLAUDE_PLUGIN_ROOT}/bin/kipcb`)."
@@ -73,8 +76,8 @@ def skill(name, text, v):
                     "  or when a step fails.", where)
         text = _sub(text, "The user's defaults (manufacturer, build method, layers) are in the session\n"
                           "context and in `kipcb settings`",
-                    "The user's defaults are manufacturer **${user_config.fab_house}**, build\n"
-                    "**${user_config.build_method}** and layers **${user_config.layers}** (also in `kipcb settings`)",
+                    "The user's defaults (manufacturer, build method, layers) are in\n"
+                    "`kipcb settings` (see *The kipcb engine* above)",
                     where)
         text = _sub(text, "Claude Code's status bar also shows the bar live when the user kept the\n"
                           "plugin's \"Show design progress in the status bar\" option on (the default);\n"
@@ -121,7 +124,7 @@ def build(out, version=None):
     os.makedirs(os.path.join(out, ".claude-plugin"))
 
     manifest["version"] = v
-    manifest["userConfig"].pop("progress_statusline", None)
+    manifest.pop("userConfig", None)     # the directory can't check option values used in skills
     manifest["description"] = (
         "Describe a circuit board and get a manufacturable KiCad PCB: requirements, parts, "
         "schematic, placement, autorouting, ERC/DRC and fab outputs. Downloads its open-source "

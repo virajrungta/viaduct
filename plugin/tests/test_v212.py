@@ -43,7 +43,7 @@ class LiteEditionTests(unittest.TestCase):
         self.assertEqual(m["name"], "viaduct")
         self.assertEqual(m["version"], "9.9")
         self.assertNotIn("hooks", m)
-        self.assertNotIn("progress_statusline", m["userConfig"])
+        self.assertNotIn("userConfig", m)
 
     def test_every_skill_installs_the_matching_engine(self):
         for name in ("design", "fab", "inquiry", "review"):
@@ -53,7 +53,9 @@ class LiteEditionTests(unittest.TestCase):
             self.assertIn("AskUserQuestion before downloading", text, name)
             self.assertNotIn("on PATH", text, name)
             self.assertNotIn("bin/kipcb`)", text, name)
-        self.assertIn("${user_config.fab_house}", self.read("skills/design/SKILL.md"))
+        for name in ("design", "fab", "inquiry", "review"):
+            self.assertNotIn("user_config", self.read("skills/%s/SKILL.md" % name), name)
+        self.assertIn("kipcb settings --save", self.read("skills/design/SKILL.md"))
         self.assertNotIn("status bar", self.read("skills/design/SKILL.md"))
         self.assertIn(".viaduct/engine/9.9/plugin/bin/kipcb", self.read("agents/circuit-reviewer.md"))
 

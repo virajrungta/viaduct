@@ -9,6 +9,12 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.14 - 2026-11-11
+
+**Plugin directory fix**
+
+- The directory edition (`lite/`) has no install-dialog options; its defaults live in `kipcb settings`, and Claude saves new ones when you ask.
+
 ## V2.13 - 2026-11-11
 
 **Plugin directory fix**

@@ -6,9 +6,9 @@ guides. It's built from [`plugin/`](../plugin) by `plugin/tools/build_lite.py`, 
 edit it by hand.
 
 **What runs on your computer**: the first time you use a Viaduct command, Claude asks
-before downloading Viaduct's open-source engine (`kipcb`, release V2.13 of
+before downloading Viaduct's open-source engine (`kipcb`, release V2.14 of
 [this repository](https://github.com/virajrungta/viaduct), about 3 MB) into
-`~/.viaduct/engine/2.13`. kipcb drives KiCad 9 on your computer. It goes online only for
+`~/.viaduct/engine/2.14`. kipcb drives KiCad 9 on your computer. It goes online only for
 JLCPCB/EasyEDA part lookups and, after asking, to download the Freerouting autorouter.
 It sends no personal data, files or credentials anywhere.
 

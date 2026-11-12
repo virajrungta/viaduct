@@ -197,6 +197,7 @@ The latest versions are below. Every version is in [RELEASES.md](plugin/RELEASES
 
 | Version | Date | What's new |
 |---|---|---|
+| [V2.14](https://github.com/virajrungta/viaduct/releases/tag/v2.14) | 2026-11-11 | Plugin directory fix |
 | [V2.13](https://github.com/virajrungta/viaduct/releases/tag/v2.13) | 2026-11-11 | Plugin directory fix |
 | [V2.12](https://github.com/virajrungta/viaduct/releases/tag/v2.12) | 2026-11-11 | A tidier repository, and an edition for Claude's plugin directory |
 | [V2.11](https://github.com/virajrungta/viaduct/releases/tag/v2.11) | 2026-11-08 | A clearer README, with the demo video |
