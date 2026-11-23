@@ -8,6 +8,7 @@ To update: `claude plugin marketplace update pcb-claude-plugin`, then
 
 | Version | Date | What's new |
 |---|---|---|
+| [V2.15](https://github.com/virajrungta/viaduct/releases/tag/v2.15) | 2026-11-22 | The directory edition downloads its engine from the release page |
 | [V2.14](https://github.com/virajrungta/viaduct/releases/tag/v2.14) | 2026-11-11 | Plugin directory fix |
 | [V2.13](https://github.com/virajrungta/viaduct/releases/tag/v2.13) | 2026-11-11 | Plugin directory fix |
 | [V2.12](https://github.com/virajrungta/viaduct/releases/tag/v2.12) | 2026-11-11 | A tidier repository, and an edition for Claude's plugin directory |

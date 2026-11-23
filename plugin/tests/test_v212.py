@@ -49,7 +49,7 @@ class LiteEditionTests(unittest.TestCase):
         for name in ("design", "fab", "inquiry", "review"):
             text = self.read("skills/%s/SKILL.md" % name)
             self.assertIn("## The kipcb engine", text, name)
-            self.assertIn("archive/refs/tags/v9.9.tar.gz", text, name)
+            self.assertIn("releases/download/v9.9/viaduct-engine-v9.9.tar.gz", text, name)
             self.assertIn("AskUserQuestion before downloading", text, name)
             self.assertNotIn("on PATH", text, name)
             self.assertNotIn("bin/kipcb`)", text, name)

@@ -9,6 +9,12 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.15 - 2026-11-22
+
+**The directory edition downloads its engine from the release page**
+
+- Each release now includes `viaduct-engine-vX.Y.tar.gz`, and the directory edition downloads that file instead of GitHub's source archive. Same contents, and a stable, versioned file to fetch.
+
 ## V2.14 - 2026-11-11
 
 **Plugin directory fix**

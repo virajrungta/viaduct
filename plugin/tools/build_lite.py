@@ -34,7 +34,7 @@ it by that full path. Before the first kipcb command in a session:
 
    ```bash
    mkdir -p "$HOME/.viaduct/engine/{v}"
-   curl -fsSL -o "$HOME/.viaduct/engine/v{v}.tar.gz" https://github.com/virajrungta/viaduct/archive/refs/tags/v{v}.tar.gz
+   curl -fsSL -o "$HOME/.viaduct/engine/v{v}.tar.gz" https://github.com/virajrungta/viaduct/releases/download/v{v}/viaduct-engine-v{v}.tar.gz
    tar -xzf "$HOME/.viaduct/engine/v{v}.tar.gz" -C "$HOME/.viaduct/engine/{v}" --strip-components=1
    ```
 

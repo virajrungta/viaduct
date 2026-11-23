@@ -25,3 +25,6 @@ jobs:
           print(m.group(1).strip() if m else "See CHANGELOG.md")
           EOF
           gh release create "$TAG" --title "V$VERSION" --notes-file notes.md --verify-tag
+          # the engine the directory edition (lite/) downloads; GitHub counts each download
+          git archive --format=tar.gz --prefix="viaduct-$VERSION/" -o "viaduct-engine-$TAG.tar.gz" HEAD
+          gh release upload "$TAG" "viaduct-engine-$TAG.tar.gz"
