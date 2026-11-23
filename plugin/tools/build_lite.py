@@ -111,7 +111,10 @@ JLCPCB/EasyEDA part lookups and, after asking, to download the Freerouting autor
 It sends no personal data, files or credentials anywhere.
 
 Install it from Claude's plugin directory (search for **Viaduct** under Plugins). You need
-KiCad 9 and Java 21+. See the [main README](../README.md) for what Viaduct does,
+KiCad 9 and Java 21+.
+
+Viaduct is free and open source. If it helps you, a star on
+[GitHub](https://github.com/virajrungta/viaduct) helps other people find it. See the [main README](../README.md) for what Viaduct does,
 and the [privacy section](../README.md#privacy-and-what-runs-on-your-computer) for details.
 """
 

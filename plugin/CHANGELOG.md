@@ -9,6 +9,12 @@ release and publishes it on GitHub.
 
 _Nothing yet._
 
+## V2.16 - 2026-11-22
+
+**A note on how to support Viaduct**
+
+- The welcome message after installing mentions that a GitHub star helps other people find Viaduct. It's shown once, never again after that.
+
 ## V2.15 - 2026-11-22
 
 **The directory edition downloads its engine from the release page**

@@ -126,7 +126,7 @@ SEEN=""
 [[ -f "$SEEN_FILE" ]] && SEEN="$(cat "$SEEN_FILE" 2>/dev/null)"
 msg=""
 if [[ -z "$SEEN" ]]; then
-  msg="Viaduct V$VERSION installed. Try: /viaduct:design a USB-C powered board with an ESP32 and a temperature sensor. Defaults: $FAB, $BUILD, layers $LAYERS (change with /plugin configure viaduct@viaduct)."
+  msg="Viaduct V$VERSION installed. Try: /viaduct:design a USB-C powered board with an ESP32 and a temperature sensor. Defaults: $FAB, $BUILD, layers $LAYERS (change with /plugin configure viaduct@viaduct). Viaduct is free and open source; if it helps you, a star on GitHub helps other people find it: https://github.com/virajrungta/viaduct"
 elif [[ "$SEEN" != "$VERSION" ]]; then
   msg="Viaduct updated to V$VERSION. What's new: https://github.com/virajrungta/viaduct/releases/tag/v$VERSION"
 fi

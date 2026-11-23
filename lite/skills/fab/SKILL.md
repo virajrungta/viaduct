@@ -10,19 +10,19 @@ argument-hint: "[project dir or .kicad_pro]"
 
 This plugin drives `kipcb`, Viaduct's open-source KiCad engine (MIT,
 https://github.com/virajrungta/viaduct), which runs on the user's computer.
-Below, `kipcb` means `"$HOME/.viaduct/engine/2.15/plugin/bin/kipcb"`; always call
+Below, `kipcb` means `"$HOME/.viaduct/engine/2.16/plugin/bin/kipcb"`; always call
 it by that full path. Before the first kipcb command in a session:
 
-1. Check it's there: `test -x "$HOME/.viaduct/engine/2.15/plugin/bin/kipcb" && echo installed`
-2. If it isn't, tell the user Viaduct needs its engine: release V2.15 of the
+1. Check it's there: `test -x "$HOME/.viaduct/engine/2.16/plugin/bin/kipcb" && echo installed`
+2. If it isn't, tell the user Viaduct needs its engine: release V2.16 of the
    open-source Viaduct repo, downloaded once from GitHub (about 3 MB) into
-   `~/.viaduct/engine/2.15`. Ask with AskUserQuestion before downloading. If they
+   `~/.viaduct/engine/2.16`. Ask with AskUserQuestion before downloading. If they
    agree, run these three commands:
 
    ```bash
-   mkdir -p "$HOME/.viaduct/engine/2.15"
-   curl -fsSL -o "$HOME/.viaduct/engine/v2.15.tar.gz" https://github.com/virajrungta/viaduct/releases/download/v2.15/viaduct-engine-v2.15.tar.gz
-   tar -xzf "$HOME/.viaduct/engine/v2.15.tar.gz" -C "$HOME/.viaduct/engine/2.15" --strip-components=1
+   mkdir -p "$HOME/.viaduct/engine/2.16"
+   curl -fsSL -o "$HOME/.viaduct/engine/v2.16.tar.gz" https://github.com/virajrungta/viaduct/releases/download/v2.16/viaduct-engine-v2.16.tar.gz
+   tar -xzf "$HOME/.viaduct/engine/v2.16.tar.gz" -C "$HOME/.viaduct/engine/2.16" --strip-components=1
    ```
 
    Then run `kipcb doctor` and tell the user plainly what's missing, if anything
